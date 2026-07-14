@@ -1,13 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { NgModule } from '@angular/core';
+
+import { useLayout } from '@/utils/use-layout';
+import { PagesRoutes } from './pages';
 import { Layouts } from './layouts';
-import { useLayout } from '../utils/use-layout';
 
 export const routes: Routes = [
   useLayout({
     layout: Layouts.NoLayout,
-    routes: [],
+    routes: PagesRoutes,
   }),
 ];
 
