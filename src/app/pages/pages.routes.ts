@@ -1,5 +1,5 @@
-import { Routes } from "@angular/router";
+import { Routes } from '@angular/router';
 
-import { HomeRoute } from "./home";
+import { HomeRoute } from './home';
 
 export const PagesRoutes: Routes = [HomeRoute];

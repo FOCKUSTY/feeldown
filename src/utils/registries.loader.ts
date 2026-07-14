@@ -6,11 +6,11 @@ import type {
   EventsRegistry,
   GameEffectsRegistry,
   VariablesRegistry,
-} from "@/types/registries";
+} from '@/types/registries';
 
-import { readFile } from "fs/promises";
-import { join } from "path";
-import { parse } from "yaml";
+import { readFile } from 'fs/promises';
+import { join } from 'path';
+import { parse } from 'yaml';
 
 export type Registries = {
   characters: CharactersRegistry;
@@ -24,23 +24,23 @@ export type Registries = {
 export type Registry = keyof Registries;
 
 const REGISTRIES: Record<Registry, string> = {
-  variables: "Переменные",
-  characterAnimations: "Персонажи_Анимации",
-  characters: "Персонажи",
-  events: "События",
-  backgroundAnimations: "Фон_Анимации",
-  emotions: "Эмоции",
-  gameEffects: "Эффекты",
+  variables: 'Переменные',
+  characterAnimations: 'Персонажи_Анимации',
+  characters: 'Персонажи',
+  events: 'События',
+  backgroundAnimations: 'Фон_Анимации',
+  emotions: 'Эмоции',
+  gameEffects: 'Эффекты',
 } as const;
 
 const TYPES: Record<Registry, string> = {
-  variables: "variables",
-  characterAnimations: "animations",
-  characters: "characters",
-  events: "events",
-  backgroundAnimations: "animations",
-  emotions: "emotions",
-  gameEffects: "effects",
+  variables: 'variables',
+  characterAnimations: 'animations',
+  characters: 'characters',
+  events: 'events',
+  backgroundAnimations: 'animations',
+  emotions: 'emotions',
+  gameEffects: 'effects',
 } as const;
 
 export class RegistryLoader {
@@ -72,7 +72,7 @@ export class RegistryLoader {
     const filePath = join(this._registry_path, fileName);
 
     try {
-      const content = await readFile(filePath, "utf-8");
+      const content = await readFile(filePath, 'utf-8');
       const data = parse(content);
       return data[type];
     } catch (err) {

@@ -1,4 +1,4 @@
-import { NoLayout } from "./nolayout/nolayout.component";
+import { NoLayout } from './nolayout/nolayout.component';
 
 export const Layouts = {
   NoLayout,

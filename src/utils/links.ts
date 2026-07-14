@@ -3,7 +3,7 @@ import {
   bootstrapGithub,
   bootstrapBluesky,
   bootstrapGlobe,
-} from "@ng-icons/bootstrap-icons";
+} from '@ng-icons/bootstrap-icons';
 
 export const LINKS: Record<string, string> = {
   telegram: bootstrapTelegram,

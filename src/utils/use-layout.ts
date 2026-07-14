@@ -1,5 +1,5 @@
-import type { Route, Routes } from "@angular/router";
-import type { Layouts } from "@/app/layouts";
+import type { Route, Routes } from '@angular/router';
+import type { Layouts } from '@/app/layouts';
 
 export const useLayout = ({
   layout,
@@ -11,7 +11,7 @@ export const useLayout = ({
   route?: Route;
 }): Route => {
   return {
-    path: "",
+    path: '',
     ...route,
     component: layout,
     children: routes,

@@ -1,9 +1,8 @@
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes } from '@angular/router';
 
-import { NgModule } from "@angular/core";
-import { Layouts } from "./layouts";
-import { useLayout } from "../utils/use-layout";
-
+import { NgModule } from '@angular/core';
+import { Layouts } from './layouts';
+import { useLayout } from '../utils/use-layout';
 
 export const routes: Routes = [
   useLayout({
