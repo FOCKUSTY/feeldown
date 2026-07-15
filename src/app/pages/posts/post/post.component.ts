@@ -80,19 +80,21 @@ export class Post implements OnInit, OnDestroy {
     this._title.setTitle(title);
 
     const description = post.content.slice(0, 160) + (post.content.length > 160 ? '…' : '');
-
-    this._meta.updateTag({ name: 'description', content: description });
-    this._meta.updateTag({ property: 'og:title', content: title });
-    this._meta.updateTag({ property: 'og:description', content: description });
-
     const url = `https://feeldown.vercel.app/posts/${post.id}`;
-    this._meta.updateTag({ property: 'og:url', content: url });
-    this._meta.updateTag({ property: 'og:type', content: 'article' });
+    const image = 'https://feeldown.vercel.app/og-image.png';
 
-    this._meta.updateTag({ property: 'og:image', content: 'https://feeldown.vercel.app/og-image.png' });
-    this._meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
-    this._meta.updateTag({ name: 'twitter:title', content: title });
-    this._meta.updateTag({ name: 'twitter:description', content: description });
-    this._meta.updateTag({ name: 'twitter:image', content: 'https://feeldown.vercel.app/og-image.png' });
+    this._meta.removeTag('name="description"');
+    this._meta.removeTag('property="og:title"');
+
+    this._meta.addTag({ name: 'description', content: description, id: 'desc' });
+    this._meta.addTag({ property: 'og:title', content: title, id: 'og-title' });
+    this._meta.addTag({ property: 'og:description', content: description, id: 'og-desc' });
+    this._meta.addTag({ property: 'og:image', content: image, id: 'og-image' });
+    this._meta.addTag({ property: 'og:url', content: url, id: 'og-url' });
+    this._meta.addTag({ property: 'og:type', content: 'article', id: 'og-type' });
+    this._meta.addTag({ name: 'twitter:card', content: 'summary_large_image', id: 'tw-card' });
+    this._meta.addTag({ name: 'twitter:title', content: title, id: 'tw-title' });
+    this._meta.addTag({ name: 'twitter:description', content: description, id: 'tw-desc' });
+    this._meta.addTag({ name: 'twitter:image', content: image, id: 'tw-image' });
   }
 }
