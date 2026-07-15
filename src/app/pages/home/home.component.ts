@@ -14,8 +14,8 @@ export class Home {
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
 
-  protected readonly _token = signal<string|null>(null);
-  protected readonly _user = signal<User|null>(null);
+  protected readonly _token = signal<string | null>(null);
+  protected readonly _user = signal<User | null>(null);
   protected readonly _loaded = signal<boolean>(false);
 
   private _subscription = new Subscription();
@@ -23,14 +23,16 @@ export class Home {
   public constructor() {}
 
   public ngOnInit() {
-    this._subscription = this._route.queryParams.pipe(
-      map((query) => query["token"]),
-      tap((token) => this.setToken(token)),
-      switchMap((token) => this.getUser(token))
-    ).subscribe(user => {
-      this._user.set(user);
-      this._loaded.set(true);
-    })
+    this._subscription = this._route.queryParams
+      .pipe(
+        map((query) => query['token']),
+        tap((token) => this.setToken(token)),
+        switchMap((token) => this.getUser(token)),
+      )
+      .subscribe((user) => {
+        this._user.set(user);
+        this._loaded.set(true);
+      });
   }
 
   public ngOnDestroy() {
@@ -42,7 +44,7 @@ export class Home {
       return null;
     }
 
-    if (token === "undefined") {
+    if (token === 'undefined') {
       return null;
     }
 

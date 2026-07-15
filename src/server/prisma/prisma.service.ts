@@ -5,13 +5,13 @@ import { PrismaPg } from '@prisma/adapter-pg';
 const ADAPTER =
   env.PRISMA_CONNECTION_TYPE === 'adapter'
     ? new PrismaPg({
-      connectionString: env.DATABASE_URL,
-      min: 2,
-      idleTimeoutMillis: 5 * 60 * 1000,
-      connectionTimeoutMillis: 10 * 1000,
-      maxLifetimeSeconds: 15 * 60,
-      max: 10,
-    })
+        connectionString: env.DATABASE_URL,
+        min: 2,
+        idleTimeoutMillis: 5 * 60 * 1000,
+        connectionTimeoutMillis: 10 * 1000,
+        maxLifetimeSeconds: 15 * 60,
+        max: 10,
+      })
     : undefined;
 
 const ACCELERATE_URL =

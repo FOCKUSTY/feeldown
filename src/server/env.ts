@@ -18,6 +18,6 @@ export const env = Env.create(process.env)({
   unique: {
     PORT: isPort,
     TOKEN_EXPIRATION: validateUnitString,
-    ALLOWED_HOSTS: isArray(",")
+    ALLOWED_HOSTS: isArray(','),
   },
 });

@@ -1,3 +1,3 @@
 export type Data<T> = {
-  data: T
-}
+  data: T;
+};

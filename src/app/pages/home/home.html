@@ -1,12 +1,8 @@
-@let loaded = _loaded();
-
-@if (loaded) {
-  <div>
-    @let user = _user();
-    <span>hello</span> @if (user) { <span>, {{ user.name }} </span> }
-  </div>
+@let loaded = _loaded(); @if (loaded) {
+<div>
+  @let user = _user();
+  <span>hello</span> @if (user) { <span>, {{ user.name }} </span> }
+</div>
 } @else {
-  <div>
-    loading...
-  </div>
+<div>loading...</div>
 }
