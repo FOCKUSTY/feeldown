@@ -1,0 +1,27 @@
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-secondary) var(--fd-bg-input);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--fd-bg-input);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--fd-primary);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--fd-primary-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--fd-bg-page);
+}

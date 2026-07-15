@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 export const router = Router();
 
-router.get('/', (request, response) => {
+router.get('/@me', (request, response) => {
   const user = request.user as ExpressUser | undefined;
   response.json({ data: user?.user || null });
 });

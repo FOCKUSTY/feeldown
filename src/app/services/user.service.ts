@@ -10,8 +10,8 @@ export class UserService extends HttpBaseService {
     super();
   }
 
-  public get(token?: string | null) {
-    const data = this.http.get<Data<User | null>>('/api/user', {
+  public getMe(token?: string | null) {
+    const data = this.http.get<Data<User | null>>('/api/users/@me', {
       responseType: 'json',
       headers: this.getHeaders(token),
     });

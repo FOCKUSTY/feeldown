@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@import "./styles/markdown.style.css";
+@import "./styles/scroll.style.css";
+
 :root {
   --fd-primary: #4f46e5;
   --fd-primary-hover: #4338ca;

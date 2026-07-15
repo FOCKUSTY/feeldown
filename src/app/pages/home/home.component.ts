@@ -49,12 +49,15 @@ export class Home implements OnInit, OnDestroy {
   }
 
   private setToken(token?: string): void {
-    if (!token || token === 'undefined') return;
+    if (!token || token === 'undefined') {
+      return;
+    }
+
     this.authService.setToken(token);
     this._token.set(token);
   }
 
   private getUser(token?: string) {
-    return this.userService.get(token);
+    return this.userService.getMe(token);
   }
 }

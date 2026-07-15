@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
 import { HomeRoute } from './home';
-import { NewRoute } from './new';
+import { PostsRoute } from './posts';
 
-export const PagesRoutes: Routes = [HomeRoute, NewRoute];
+export const PagesRoutes: Routes = [HomeRoute, PostsRoute];
