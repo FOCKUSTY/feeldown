@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -6,12 +8,29 @@ import {
 } from '@angular/ssr/node';
 
 import express from 'express';
+import session from 'express-session';
 import { join } from 'node:path';
+import passport from 'passport';
+import { router } from './server/routes';
+
+import "./server/strategies";
+import { env } from "./server/env";
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
 const angularApp = new AngularNodeAppEngine();
+
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(session({
+  secret: env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use("/api", router);
 
 app.use(
   express.static(browserDistFolder, {
@@ -31,7 +50,7 @@ app.use((req, res, next) => {
 });
 
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
-  const port = process.env['PORT'] || 4000;
+  const port = env.PORT;
   app.listen(port, (error) => {
     if (error) {
       throw error;
