@@ -1,25 +1,4 @@
 
-`D:\projects\me\feeldown\.editorconfig`
-```
-# Editor configuration, see https://editorconfig.org
-root = true
-
-[*]
-charset = utf-8
-indent_style = space
-indent_size = 2
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-[*.ts]
-quote_type = single
-ij_typescript_use_double_quotes = false
-
-[*.md]
-max_line_length = off
-trim_trailing_whitespace = false
-
-```
 `D:\projects\me\feeldown\.gitignore`
 ```
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
@@ -72,13 +51,25 @@ Thumbs.db
 .env
 
 ```
-`D:\projects\me\feeldown\.postcssrc.json`
-```.json
-{
-  "plugins": {
-    "@tailwindcss/postcss": {}
-  }
-}
+`D:\projects\me\feeldown\.editorconfig`
+```
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+quote_type = single
+ij_typescript_use_double_quotes = false
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
 
 ```
 `D:\projects\me\feeldown\angular.json`
@@ -176,6 +167,15 @@ Thumbs.db
 }
 
 ```
+`D:\projects\me\feeldown\.postcssrc.json`
+```.json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+
+```
 `D:\projects\me\feeldown\LICENSE`
 ```
 MIT License
@@ -199,6 +199,22 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+```
+`D:\projects\me\feeldown\prisma.config.ts`
+```.ts
+import 'dotenv/config';
+import { defineConfig } from 'prisma/config';
+
+export default defineConfig({
+  schema: 'src/server/prisma/schema.prisma',
+  migrations: {
+    path: 'src/server/prisma/migrations',
+  },
+  datasource: {
+    url: process.env['DATABASE_URL'],
+  },
+});
 
 ```
 `D:\projects\me\feeldown\package.json`
@@ -265,79 +281,6 @@ SOFTWARE.
 }
 
 ```
-`D:\projects\me\feeldown\prisma.config.ts`
-```.ts
-import 'dotenv/config';
-import { defineConfig } from 'prisma/config';
-
-export default defineConfig({
-  schema: 'src/server/prisma/schema.prisma',
-  migrations: {
-    path: 'src/server/prisma/migrations',
-  },
-  datasource: {
-    url: process.env['DATABASE_URL'],
-  },
-});
-
-```
-`D:\projects\me\feeldown\tsconfig.app.json`
-```.json
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
-{
-  "extends": "./tsconfig.json",
-  "compilerOptions": {
-    "outDir": "./out-tsc/app",
-    "types": ["node"]
-  },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/**/*.spec.ts"]
-}
-
-```
-`D:\projects\me\feeldown\tsconfig.json`
-```.json
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
-{
-  "compileOnSave": false,
-  "compilerOptions": {
-    "strict": true,
-    "noImplicitOverride": true,
-    "noPropertyAccessFromIndexSignature": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "skipLibCheck": true,
-    "isolatedModules": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "ES2022",
-    "module": "preserve",
-    "paths": {
-      "@/*": ["./src/*"]
-    },
-    "types": ["node"]
-  },
-  "include": ["src", "prisma.config.ts"],
-  "angularCompilerOptions": {
-    "enableI18nLegacyMessageIdFormat": false,
-    "strictInjectionParameters": true,
-    "strictInputAccessModifiers": true,
-    "strictTemplates": true
-  },
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
-  ]
-}
-
-```
 `D:\projects\me\feeldown\README.md`
 ```.md
 # Feeldown
@@ -401,6 +344,63 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
 
 ```
+`D:\projects\me\feeldown\tsconfig.app.json`
+```.json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}
+
+```
+`D:\projects\me\feeldown\tsconfig.json`
+```.json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["src", "prisma.config.ts"],
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+
+```
 `D:\projects\me\feeldown\tsconfig.spec.json`
 ```.json
 /* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
@@ -430,6 +430,23 @@ For more information on using the Angular CLI, including detailed command refere
     <app-root></app-root>
   </body>
 </html>
+
+```
+`D:\projects\me\feeldown\src\utils\load-module.ts`
+```.ts
+import type { Type } from '@angular/core';
+import type { Route } from '@angular/router';
+
+export const convertToRouteModule = <T extends Type<unknown>>(
+  module: Promise<{ default: T }>,
+  route?: Route,
+): Route => {
+  return {
+    path: '',
+    ...route,
+    loadChildren: () => module.then((m) => m.default),
+  };
+};
 
 ```
 `D:\projects\me\feeldown\src\main.server.ts`
@@ -525,6 +542,29 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
 export const reqHandler = createNodeRequestHandler(app);
 
 ```
+`D:\projects\me\feeldown\src\utils\use-layout.ts`
+```.ts
+import type { Route, Routes } from '@angular/router';
+import type { Layouts } from '@/app/layouts';
+
+export const useLayout = ({
+  layout,
+  routes,
+  route,
+}: {
+  layout: Layouts;
+  routes: Routes;
+  route?: Route;
+}): Route => {
+  return {
+    path: '',
+    ...route,
+    component: layout,
+    children: routes,
+  };
+};
+
+```
 `D:\projects\me\feeldown\src\styles.css`
 ```.css
 @import "tailwindcss";
@@ -565,46 +605,6 @@ export const reqHandler = createNodeRequestHandler(app);
       0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
   }
 }
-
-```
-`D:\projects\me\feeldown\src\utils\load-module.ts`
-```.ts
-import type { Type } from '@angular/core';
-import type { Route } from '@angular/router';
-
-export const convertToRouteModule = <T extends Type<unknown>>(
-  module: Promise<{ default: T }>,
-  route?: Route,
-): Route => {
-  return {
-    path: '',
-    ...route,
-    loadChildren: () => module.then((m) => m.default),
-  };
-};
-
-```
-`D:\projects\me\feeldown\src\utils\use-layout.ts`
-```.ts
-import type { Route, Routes } from '@angular/router';
-import type { Layouts } from '@/app/layouts';
-
-export const useLayout = ({
-  layout,
-  routes,
-  route,
-}: {
-  layout: Layouts;
-  routes: Routes;
-  route?: Route;
-}): Route => {
-  return {
-    path: '',
-    ...route,
-    component: layout,
-    children: routes,
-  };
-};
 
 ```
 `D:\projects\me\feeldown\src\styles\base-host.style.css`
@@ -866,6 +866,19 @@ export const env = Env.create(process.env)({
 });
 
 ```
+`D:\projects\me\feeldown\src\server\types\client.types.ts`
+```.ts
+import type { Post, User } from './prisma.types';
+
+export type ClientPost = Post & {
+  user: User;
+};
+
+export type ClientUser = User & {
+  posts: Post[];
+}
+
+```
 `D:\projects\me\feeldown\src\server\types\data.types.ts`
 ```.ts
 export type Data<T> = {
@@ -881,18 +894,6 @@ export type ExpressUser = {
   user: User;
   auth: Auth;
 };
-
-```
-`D:\projects\me\feeldown\src\server\types\index.ts`
-```.ts
-export * from './prisma.types';
-export * from './express-user.types';
-export * from './data.types';
-
-```
-`D:\projects\me\feeldown\src\server\types\prisma.types.ts`
-```.ts
-export * from '../prisma/generated/client';
 
 ```
 `D:\projects\me\feeldown\src\server\strategies\google.strategy.ts`
@@ -1008,6 +1009,24 @@ passport.use(
 );
 
 ```
+`D:\projects\me\feeldown\src\server\types\index.ts`
+```.ts
+export * from './prisma.types';
+export * from './express-user.types';
+export * from './data.types';
+export * from './client.types';
+
+```
+`D:\projects\me\feeldown\src\server\types\prisma.types.ts`
+```.ts
+export * from '../prisma/generated/client';
+
+```
+`D:\projects\me\feeldown\src\server\strategies\index.ts`
+```.ts
+export * from './google.strategy';
+
+```
 `D:\projects\me\feeldown\src\server\services\token.service.ts`
 ```.ts
 import type { Auth } from '../types';
@@ -1017,11 +1036,6 @@ import { sign } from 'jsonwebtoken';
 export class Token {
   public static create(auth: Auth) {}
 }
-
-```
-`D:\projects\me\feeldown\src\server\strategies\index.ts`
-```.ts
-export * from './google.strategy';
 
 ```
 `D:\projects\me\feeldown\src\server\services\unit-time.service.ts`
@@ -1124,14 +1138,81 @@ export * from './user.routes';
 ```
 `D:\projects\me\feeldown\src\server\routes\users\user.routes.ts`
 ```.ts
+import { prisma } from '@/server/prisma';
 import { ExpressUser } from '@/server/types';
-import { Router } from 'express';
+import { HttpStatusCode } from '@angular/common/http';
+import { response, Router } from 'express';
 
 export const router = Router();
 
 router.get('/@me', (request, response) => {
   const user = request.user as ExpressUser | undefined;
   response.json({ data: user?.user || null });
+});
+
+const resolveSlug = (slug: string) => {
+  if (slug.startsWith('@')) {
+    return {
+      username: slug.slice(1),
+      id: undefined,
+    };
+  }
+
+  return {
+    username: undefined,
+    id: slug,
+  };
+};
+
+const getUser = async <T extends Record<string, boolean>>(
+  slug: string,
+  include?: T,
+) => {
+  const data = resolveSlug(slug);
+  const user = await prisma.user.findFirst({ where: data, include });
+  return user;
+};
+
+router.get('/:slug', async (request, response) => {
+  const { slug } = request.params;
+
+  if (slug === '@me') {
+    const user = request.user as ExpressUser | undefined;
+    response.json({ data: user?.user || null });
+    return;
+  }
+
+  const user = await getUser(slug);
+  response.json({ data: user || null });
+});
+
+router.get('/:slug/posts', async (request, response) => {
+  const { slug } = request.params;
+  const where = (() => {
+    if (slug !== '@me') {
+      return resolveSlug(slug);
+    }
+
+    const user = request.user as ExpressUser | undefined;
+    if (!user) {
+      response.sendStatus(500);
+      return false;
+    }
+
+    return { id: user.user.id };
+  })();
+
+  if (!where) {
+    return;
+  }
+
+  const user = await prisma.user.findFirst({ where, include: { posts: true } });
+  if (!user) {
+    response.sendStatus(HttpStatusCode.BadRequest);
+    return;
+  }
+
+  response.json({ data: user.posts });
 });
 
 ```
@@ -1177,6 +1258,9 @@ router.get('/:id', async (request, response) => {
   const post = await prisma.post.findUnique({
     where: {
       id: id,
+    },
+    include: {
+      user: true,
     },
   });
 
@@ -1299,6 +1383,36 @@ model Post {
 provider = "postgresql"
 
 ```
+`D:\projects\me\feeldown\src\server\prisma\migrations\20260715102109_main\migration.sql`
+```.sql
+-- CreateTable
+CREATE TABLE "Post" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+```
+`D:\projects\me\feeldown\src\server\prisma\migrations\20260715060242_main\migration.sql`
+```.sql
+/*
+  Warnings:
+
+  - Added the required column `accessToken` to the `Auth` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `token` to the `Auth` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- AlterTable
+ALTER TABLE "Auth" ADD COLUMN     "accessToken" TEXT NOT NULL,
+ADD COLUMN     "refreshToken" TEXT,
+ADD COLUMN     "token" TEXT NOT NULL;
+
+```
 `D:\projects\me\feeldown\src\server\prisma\migrations\20260715054255_main\migration.sql`
 ```.sql
 -- CreateTable
@@ -1329,26 +1443,6 @@ CREATE UNIQUE INDEX "Auth_userId_key" ON "Auth"("userId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
-
-```
-`D:\projects\me\feeldown\src\server\middlewares\index.ts`
-```.ts
-export * from './token.middleware';
-
-```
-`D:\projects\me\feeldown\src\server\prisma\migrations\20260715060242_main\migration.sql`
-```.sql
-/*
-  Warnings:
-
-  - Added the required column `accessToken` to the `Auth` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `token` to the `Auth` table without a default value. This is not possible if the table is not empty.
-
-*/
--- AlterTable
-ALTER TABLE "Auth" ADD COLUMN     "accessToken" TEXT NOT NULL,
-ADD COLUMN     "refreshToken" TEXT,
-ADD COLUMN     "token" TEXT NOT NULL;
 
 ```
 `D:\projects\me\feeldown\src\server\middlewares\token.middleware.ts`
@@ -1399,27 +1493,17 @@ export const tokenMiddleware = async (
 };
 
 ```
-`D:\projects\me\feeldown\src\server\prisma\migrations\20260715102109_main\migration.sql`
-```.sql
--- CreateTable
-CREATE TABLE "Post" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-
-    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
-);
-
--- AddForeignKey
-ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
-```
 `D:\projects\me\feeldown\src\environments\environment.development.ts`
 ```.ts
 export const environment = {
   API_ORIGIN: 'https://localhost:4200',
   BASE_PATH_NAME: '/api/',
 };
+
+```
+`D:\projects\me\feeldown\src\server\middlewares\index.ts`
+```.ts
+export * from './token.middleware';
 
 ```
 `D:\projects\me\feeldown\src\environments\environment.ts`
@@ -1442,34 +1526,6 @@ const serverConfig: ApplicationConfig = {
 };
 
 export const config = mergeApplicationConfig(appConfig, serverConfig);
-
-```
-`D:\projects\me\feeldown\src\app\app.config.ts`
-```.ts
-import {
-  ApplicationConfig,
-  provideBrowserGlobalErrorListeners,
-} from '@angular/core';
-import { provideRouter } from '@angular/router';
-
-import {
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser';
-import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
-
-import { routes } from './app.module';
-import { provideMarkdown } from 'ngx-markdown';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideMarkdown({ loader: HttpClient }),
-    provideHttpClient(withFetch()),
-    provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
-    provideClientHydration(withEventReplay()),
-  ],
-};
 
 ```
 `D:\projects\me\feeldown\src\app\app.html`
@@ -1499,6 +1555,34 @@ export const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppModule {}
+
+```
+`D:\projects\me\feeldown\src\app\app.config.ts`
+```.ts
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
+
+import { routes } from './app.module';
+import { provideMarkdown } from 'ngx-markdown';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideMarkdown({ loader: HttpClient }),
+    provideHttpClient(withFetch()),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+  ],
+};
 
 ```
 `D:\projects\me\feeldown\src\app\app.ts`
@@ -1590,17 +1674,9 @@ export abstract class HttpBaseService {
 }
 
 ```
-`D:\projects\me\feeldown\src\app\services\index.ts`
-```.ts
-export * from './auth.service';
-export * from './user.service';
-export * from './http-base.service';
-export * from './post.service';
-
-```
 `D:\projects\me\feeldown\src\app\services\post.service.ts`
 ```.ts
-import type { Data, Post } from '@/server/types';
+import type { Data, ClientPost, Post } from '@/server/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -1616,8 +1692,8 @@ export class PostService extends HttpBaseService {
     super();
   }
 
-  public get(id: string): Observable<Post> {
-    const data = this.http.get<Data<Post>>(`/api/posts/${id}`);
+  public get(id: string): Observable<ClientPost> {
+    const data = this.http.get<Data<ClientPost>>(`/api/posts/${id}`);
     return this.from(data);
   }
 
@@ -1629,6 +1705,14 @@ export class PostService extends HttpBaseService {
     return this.from(data);
   }
 }
+
+```
+`D:\projects\me\feeldown\src\app\services\index.ts`
+```.ts
+export * from './auth.service';
+export * from './user.service';
+export * from './http-base.service';
+export * from './post.service';
 
 ```
 `D:\projects\me\feeldown\src\app\services\user.service.ts`
@@ -1662,8 +1746,123 @@ import { Routes } from '@angular/router';
 
 import { HomeRoute } from './home';
 import { PostsRoute } from './posts';
+import { UsersRoute } from './users';
 
-export const PagesRoutes: Routes = [HomeRoute, PostsRoute];
+export const PagesRoutes: Routes = [HomeRoute, PostsRoute, UsersRoute];
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\index.ts`
+```.ts
+export * from "./users.route";
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\users.module.ts`
+```.ts
+import { RouterModule, Routes } from '@angular/router';
+
+import { NgModule } from '@angular/core';
+import { HomeRoute } from './home';
+
+export const routes: Routes = [
+  {
+    path: 'posts',
+    children: [HomeRoute],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class PostsModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\users.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const UsersRoute = convertToRouteModule(import('./users.module'));
+export default UsersRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\home.component.ts`
+```.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.html',
+})
+export class Home {
+
+}
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\home.module.ts`
+```.ts
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+
+import { Home } from './home.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: Home,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class HomeModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\home.html`
+```.html
+<p>home works!</p>
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\home.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const HomeRoute = convertToRouteModule(import('./home.module'));
+export default HomeRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\home.spec.ts`
+```.ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Home } from './home.component';
+
+describe('Home', () => {
+  let component: Home;
+  let fixture: ComponentFixture<Home>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Home]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(Home);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\pages\users\home\index.ts`
+```.ts
+export * from './home.route';
 
 ```
 `D:\projects\me\feeldown\src\app\pages\posts\index.ts`
@@ -1686,11 +1885,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { NewRoute } from './new';
 import { HomeRoute } from './home';
+import { PostRoute } from './post';
 
 export const routes: Routes = [
   {
     path: 'posts',
-    children: [HomeRoute, NewRoute],
+    children: [HomeRoute, NewRoute, PostRoute],
   },
 ];
 
@@ -1706,17 +1906,70 @@ export default class PostsModule {}
 export * from './post.route';
 
 ```
-`D:\projects\me\feeldown\src\app\pages\posts\post\post.html`
-```.html
-<p>post works!</p>
-
-```
-`D:\projects\me\feeldown\src\app\pages\posts\post\post.route.ts`
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.component.ts`
 ```.ts
-import { convertToRouteModule } from '@/utils/load-module';
+import type { ClientPost } from '@/server/types';
 
-export const PostRoute = convertToRouteModule(import('./post.module'));
-export default PostRoute;
+import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MarkdownComponent } from 'ngx-markdown';
+import { Subscription, switchMap } from 'rxjs';
+
+import { PostService } from '@/app/services';
+import { FdButton } from '@/app/components';
+
+@Component({
+  selector: 'app-post',
+  standalone: true,
+  imports: [MarkdownComponent, FdButton],
+  templateUrl: './post.html',
+})
+export class Post implements OnInit, OnDestroy {
+  private readonly postService = inject(PostService);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+
+  protected readonly _post = signal<ClientPost | null>(null);
+  protected readonly _loading = signal<boolean>(true);
+  protected readonly _error = signal<string | null>(null);
+
+  private _subscription = new Subscription();
+
+  public ngOnInit(): void {
+    this._subscription = this._route.params
+      .pipe(
+        switchMap((params) => {
+          const id = params['id'];
+          if (!id) {
+            this._router.navigate(['/']);
+            return [];
+          }
+
+          this._loading.set(true);
+          this._error.set(null);
+          return this.postService.get(id);
+        }),
+      )
+      .subscribe({
+        next: (post) => {
+          this._post.set(post);
+          this._loading.set(false);
+        },
+        error: (err) => {
+          this._error.set(err.message || 'Не удалось загрузить пост.');
+          this._loading.set(false);
+        },
+      });
+  }
+
+  public ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
+
+  public goBack(): void {
+    this._router.navigate(['/']);
+  }
+}
 
 ```
 `D:\projects\me\feeldown\src\app\pages\posts\post\post.module.ts`
@@ -1752,9 +2005,8 @@ describe('Post', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Post]
-    })
-    .compileComponents();
+      imports: [Post],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(Post);
     component = fixture.componentInstance;
@@ -1772,18 +2024,48 @@ describe('Post', () => {
 export * from './new.route';
 
 ```
-`D:\projects\me\feeldown\src\app\pages\posts\post\post.component.ts`
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.route.ts`
 ```.ts
-import { Component } from '@angular/core';
+import { convertToRouteModule } from '@/utils/load-module';
 
-@Component({
-  selector: 'app-post',
-  imports: [],
-  templateUrl: './post.html',
-})
-export class Post {
+export const PostRoute = convertToRouteModule(import('./post.module'));
+export default PostRoute;
 
-}
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.html`
+```.html
+<div>
+  @let loading = _loading(); @if (loading) {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  } @else { @let error = _error(); @if (error) {
+  <div
+    class="p-4 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
+  <div class="mt-4">
+    <fd-button (clicked)="goBack()">Назад</fd-button>
+  </div>
+  } @else { @let post = _post(); @if (post) {
+  <div class="flex flex-col max-h-200">
+    <section class="text-(--fd-text-primary)">
+      Author: <a href="/users/{{ post.user.username }}">{{ post.user.name }}</a>
+    </section>
+
+    <article class="prose prose-invert max-w-none overflow-y-auto h-full">
+      <markdown class="markdown-body" [data]="post.content" />
+    </article>
+
+    <hr class="my-8 border-(--fd-border)" />
+
+    <div class="flex items-center gap-4">
+      <fd-button (clicked)="goBack()">← Назад</fd-button>
+    </div>
+  </div>
+  } @else {
+  <div class="text-center text-(--fd-text-muted)">Пост не найден.</div>
+  } } }
+</div>
 
 ```
 `D:\projects\me\feeldown\src\app\pages\posts\new\new.component.ts`
@@ -1835,8 +2117,8 @@ export class New {
         content: this.content.trim(),
       })
       .subscribe({
-        next: () => {
-          this.router.navigate(['/']);
+        next: (post) => {
+          this.router.navigate([`/posts/${post.id}`]);
         },
         error: (err) => {
           this._error.set(
@@ -1851,7 +2133,7 @@ export class New {
 ```
 `D:\projects\me\feeldown\src\app\pages\posts\new\new.html`
 ```.html
-<div class="px-4">
+<div>
   <h2 class="text-2xl font-bold text-(--fd-text-primary)">Новый пост</h2>
   <p class="text-(--fd-text-muted) mt-1">Поделитесь своей мыслью</p>
 
@@ -1976,11 +2258,6 @@ import { Component } from '@angular/core';
 export class Home {}
 
 ```
-`D:\projects\me\feeldown\src\app\pages\posts\home\home.html`
-```.html
-<p>home works!</p>
-
-```
 `D:\projects\me\feeldown\src\app\pages\posts\home\home.module.ts`
 ```.ts
 import { Routes, RouterModule } from '@angular/router';
@@ -2000,6 +2277,11 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export default class HomeModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.html`
+```.html
+<p>home works!</p>
 
 ```
 `D:\projects\me\feeldown\src\app\pages\posts\home\home.route.ts`
@@ -2034,6 +2316,11 @@ describe('Home', () => {
     expect(component).toBeTruthy();
   });
 });
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\index.ts`
+```.ts
+export * from './home.route';
 
 ```
 `D:\projects\me\feeldown\src\app\pages\home\home.component.ts`
@@ -2101,11 +2388,6 @@ export class Home implements OnInit, OnDestroy {
     return this.userService.getMe(token);
   }
 }
-
-```
-`D:\projects\me\feeldown\src\app\pages\posts\home\index.ts`
-```.ts
-export * from './home.route';
 
 ```
 `D:\projects\me\feeldown\src\app\pages\home\home.html`

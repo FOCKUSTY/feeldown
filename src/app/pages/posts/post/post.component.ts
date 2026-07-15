@@ -34,6 +34,7 @@ export class Post implements OnInit, OnDestroy {
             this._router.navigate(['/']);
             return [];
           }
+
           this._loading.set(true);
           this._error.set(null);
           return this.postService.get(id);

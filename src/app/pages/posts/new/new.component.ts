@@ -45,8 +45,8 @@ export class New {
         content: this.content.trim(),
       })
       .subscribe({
-        next: () => {
-          this.router.navigate(['/']);
+        next: (post) => {
+          this.router.navigate([`/posts/${post.id}`]);
         },
         error: (err) => {
           this._error.set(
