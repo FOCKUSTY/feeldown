@@ -3,12 +3,19 @@ import { PrismaClient } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 
 const ADAPTER =
-  env.NODE_ENV === 'development'
-    ? new PrismaPg({ connectionString: env.DATABASE_URL })
+  env.PRISMA_CONNECTION_TYPE === 'adapter'
+    ? new PrismaPg({
+      connectionString: env.DATABASE_URL,
+      min: 2,
+      idleTimeoutMillis: 5 * 60 * 1000,
+      connectionTimeoutMillis: 10 * 1000,
+      maxLifetimeSeconds: 15 * 60,
+      max: 10,
+    })
     : undefined;
 
 const ACCELERATE_URL =
-  env.NODE_ENV === 'development' ? undefined : env.DATABASE_URL;
+  env.PRISMA_CONNECTION_TYPE === 'adapter' ? undefined : env.DATABASE_URL;
 
 const OPTIONS = {
   adapter: ADAPTER,

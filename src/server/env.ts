@@ -1,11 +1,11 @@
-import { Env, isPort } from 'fenviee';
+import { Env, isArray, isPort } from 'fenviee';
 import { validateString as validateUnitString } from './services/unit-time.service';
 
 export const env = Env.create(process.env)({
   default: {
-    NODE_ENV: 'development',
+    PRISMA_CONNECTION_TYPE: 'adapter',
   },
-  partial: ['NODE_ENV'],
+  partial: ['PRISMA_CONNECTION_TYPE'],
   required: [
     'DATABASE_URL',
     'GOOGLE_CLIENT_ID',
@@ -18,5 +18,6 @@ export const env = Env.create(process.env)({
   unique: {
     PORT: isPort,
     TOKEN_EXPIRATION: validateUnitString,
+    ALLOWED_HOSTS: isArray(",")
   },
 });

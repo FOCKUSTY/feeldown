@@ -2,15 +2,15 @@ import { env } from '@/server/env';
 import { ExpressUser } from '@/server/types';
 import { Router } from 'express';
 
-import passpot from 'passport';
+import passport from 'passport';
 
 export const router = Router();
 
-router.get('/google', passpot.authenticate('google'));
+router.get('/google', passport.authenticate('google'));
 
 router.get(
   '/google/callback',
-  passpot.authenticate('google'),
+  passport.authenticate('google'),
   (request, response) => {
     const user = request.user as ExpressUser | undefined;
     if (!user) {
