@@ -6,11 +6,17 @@ import { Router } from '@angular/router';
   standalone: true,
   templateUrl: './fd-button.html',
 })
-export class TvButton {
+export class FdButton {
   private readonly router = inject(Router);
 
   @Output()
   public clicked = new EventEmitter<MouseEvent>();
+
+  @Input()
+  public type: 'button' | 'submit' | 'reset' = 'button';
+
+  @Input()
+  public disabled = false;
 
   @Input()
   public href?: string;

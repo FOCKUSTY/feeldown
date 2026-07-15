@@ -1,18 +1,18 @@
 import type { ComponentFixture } from '@angular/core/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { TvButton } from './fd-button.component';
+import { FdButton } from './fd-button.component';
 
 describe('TvButton', () => {
-  let component: TvButton;
-  let fixture: ComponentFixture<TvButton>;
+  let component: FdButton;
+  let fixture: ComponentFixture<FdButton>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TvButton],
+      imports: [FdButton],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TvButton);
+    fixture = TestBed.createComponent(FdButton);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

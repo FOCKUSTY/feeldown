@@ -2,10 +2,10 @@ import type { User, Data } from '@/server/types';
 
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpBaseSerive } from './http-base.service';
+import { HttpBaseService } from './http-base.service';
 
 @Injectable({ providedIn: 'root' })
-export class UserService extends HttpBaseSerive {
+export class UserService extends HttpBaseService {
   public constructor(private readonly http: HttpClient) {
     super();
   }

@@ -20,10 +20,8 @@
           Добро пожаловать в Feeldown — твой личный блог-движок.
         </p>
         <div class="mt-6">
-          <fd-button>
-            <a routerLink="/new">
-              ✍️ Написать пост
-            </a>
+          <fd-button (clicked)="navigateTo('/new')">
+            ✍️ Написать пост
           </fd-button>
         </div>
       </div>

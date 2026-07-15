@@ -5,7 +5,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { inject } from '@angular/core';
 import { map } from 'rxjs';
 
-export abstract class HttpBaseSerive {
+export abstract class HttpBaseService {
   protected readonly cookie = inject(CookieService);
 
   public constructor() {}

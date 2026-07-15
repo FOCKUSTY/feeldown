@@ -1,19 +1,21 @@
 import type { User } from '@/server/types';
 import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, Subscription, switchMap, tap } from 'rxjs';
 
 import { AuthService, UserService } from '@/app/services';
 import { environment } from '@/environments/environment';
-import { TvButton } from "@/app/components/fd-button/fd-button.component";
+import { FdButton } from "@/app/components/fd-button/fd-button.component";
 
 @Component({
   selector: 'app-home',
-  imports: [TvButton],
+  imports: [FdButton],
   templateUrl: './home.html',
 })
 export class Home implements OnInit, OnDestroy {
   private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+
   private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
 
@@ -40,6 +42,10 @@ export class Home implements OnInit, OnDestroy {
 
   public ngOnDestroy() {
     this._subscription.unsubscribe();
+  }
+
+  protected navigateTo(route: string) {
+    this._router.navigate([route]);
   }
 
   private setToken(token?: string): void {
