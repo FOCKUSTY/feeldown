@@ -1,1 +1,1 @@
-export * from "./test-markdown.constants";
+export * from './test-markdown.constants';

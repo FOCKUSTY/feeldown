@@ -1,1 +1,1 @@
-export * from "./fd-button";
+export * from './fd-button';

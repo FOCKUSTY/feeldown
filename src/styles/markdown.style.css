@@ -28,9 +28,15 @@
   border-bottom: 1px solid var(--fd-border);
   padding-bottom: 0.3em;
 }
-.markdown-body h3 { font-size: 1.3rem; }
-.markdown-body h4 { font-size: 1.1rem; }
-.markdown-body h5 { font-size: 1rem; }
+.markdown-body h3 {
+  font-size: 1.3rem;
+}
+.markdown-body h4 {
+  font-size: 1.1rem;
+}
+.markdown-body h5 {
+  font-size: 1rem;
+}
 .markdown-body h6 {
   font-size: 0.9rem;
   color: var(--fd-text-secondary);
@@ -106,7 +112,7 @@
   background: var(--fd-bg-input);
   font-size: 0.9em;
   color: var(--fd-text-primary);
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: "JetBrains Mono", "Fira Code", monospace;
 }
 
 .markdown-body pre {

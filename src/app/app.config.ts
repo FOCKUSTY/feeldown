@@ -8,11 +8,7 @@ import {
   provideClientHydration,
   withEventReplay,
 } from '@angular/platform-browser';
-import {
-  HttpClient,
-  provideHttpClient,
-  withFetch,
-} from '@angular/common/http';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 
 import { routes } from './app.module';
 import { provideMarkdown } from 'ngx-markdown';

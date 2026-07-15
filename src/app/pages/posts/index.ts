@@ -1,1 +1,1 @@
-export * from "./posts.route";
+export * from './posts.route';

@@ -20,7 +20,7 @@ export class New {
 
   protected content = TEST_MARKDOWN;
   protected _submitting = signal<boolean>(false);
-  protected _error = signal<string|null>(null);
+  protected _error = signal<string | null>(null);
 
   public constructor() {}
 
@@ -40,16 +40,20 @@ export class New {
     this._submitting.set(true);
     this._error.set(null);
 
-    this.postService.create({
-      content: this.content.trim(),
-    }).subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (err) => {
-        this._error.set(err.message || 'Ошибка при создании поста. Попробуйте позже.');
-        this._submitting.set(false);
-      },
-    });
+    this.postService
+      .create({
+        content: this.content.trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this._error.set(
+            err.message || 'Ошибка при создании поста. Попробуйте позже.',
+          );
+          this._submitting.set(false);
+        },
+      });
   }
 }

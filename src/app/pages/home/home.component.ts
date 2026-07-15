@@ -5,7 +5,7 @@ import { map, Subscription, switchMap, tap } from 'rxjs';
 
 import { AuthService, UserService } from '@/app/services';
 import { environment } from '@/environments/environment';
-import { FdButton } from "@/app/components/fd-button/fd-button.component";
+import { FdButton } from '@/app/components/fd-button/fd-button.component';
 
 @Component({
   selector: 'app-home',

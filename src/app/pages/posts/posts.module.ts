@@ -6,12 +6,9 @@ import { HomeRoute } from './home';
 
 export const routes: Routes = [
   {
-    path: "posts",
-    children: [
-      HomeRoute,
-      NewRoute,
-    ]
-  }
+    path: 'posts',
+    children: [HomeRoute, NewRoute],
+  },
 ];
 
 @NgModule({

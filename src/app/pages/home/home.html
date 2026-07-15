@@ -1,4 +1,6 @@
-<div class="max-w-3xl mx-auto mt-12 px-4 text-(--fd-text-primary) bg-(--fd-bg-page)">
+<div
+  class="max-w-3xl mx-auto mt-12 px-4 text-(--fd-text-primary) bg-(--fd-bg-page)"
+>
   <h1 class="text-4xl font-bold text-center text-(--fd-text-primary)">
     Feeldown
   </h1>
@@ -8,44 +10,34 @@
 
   <hr class="my-8 border-(--fd-border)" />
 
-  @let loaded = _loaded();
-  @if (loaded) {
-    @let user = _user();
-    @if (user) {
-      <div class="text-center">
-        <p class="text-lg text-(--fd-text-primary)">
-          Привет, <span class="font-semibold">{{ user.name }}</span>! 👋
-        </p>
-        <p class="text-(--fd-text-secondary) mt-2">
-          Добро пожаловать в Feeldown — твой личный блог-движок.
-        </p>
-        <div class="mt-6">
-          <fd-button (clicked)="navigateTo('/posts/new')">
-            ✍️ Написать пост
-          </fd-button>
-        </div>
-      </div>
-    } @else {
-      <div class="text-center">
-        <p class="text-lg text-(--fd-text-primary)">
-          Добро пожаловать в Feeldown!
-        </p>
-        <p class="text-(--fd-text-secondary) mt-2">
-          Чтобы начать писать, войдите через Google.
-        </p>
-        <div class="mt-6">
-          <fd-button>
-            <a [href]="_login_url">
-              🔑 Войти через Google
-            </a>
-          </fd-button>
-        </div>
-      </div>
-    }
-  } @else {
-    <div class="text-center text-(--fd-text-muted)">
-      Загрузка...
+  @let loaded = _loaded(); @if (loaded) { @let user = _user(); @if (user) {
+  <div class="text-center">
+    <p class="text-lg text-(--fd-text-primary)">
+      Привет, <span class="font-semibold">{{ user.name }}</span>! 👋
+    </p>
+    <p class="text-(--fd-text-secondary) mt-2">
+      Добро пожаловать в Feeldown — твой личный блог-движок.
+    </p>
+    <div class="mt-6">
+      <fd-button (clicked)="navigateTo('/posts/new')">
+        ✍️ Написать пост
+      </fd-button>
     </div>
+  </div>
+  } @else {
+  <div class="text-center">
+    <p class="text-lg text-(--fd-text-primary)">Добро пожаловать в Feeldown!</p>
+    <p class="text-(--fd-text-secondary) mt-2">
+      Чтобы начать писать, войдите через Google.
+    </p>
+    <div class="mt-6">
+      <fd-button>
+        <a [href]="_login_url"> 🔑 Войти через Google </a>
+      </fd-button>
+    </div>
+  </div>
+  } } @else {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
   }
 
   <hr class="my-8 border-(--fd-border)" />

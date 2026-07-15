@@ -4,29 +4,29 @@
 
   <hr class="my-6 border-(--fd-border)" />
 
-  @let error = _error();
-  @if (error) {
-    <div class="mb-4 p-3 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800">
-      {{ error }}
-    </div>
+  @let error = _error(); @if (error) {
+  <div
+    class="mb-4 p-3 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
   }
 
   <div class="grid grid-cols-2 gap-16 grid-rows-1 max-h-180">
     <form (ngSubmit)="onSubmit()" class="space-y-5">
       <div>
-        <label for="content" class="block text-sm font-medium text-(--fd-text-secondary)">Содержимое</label>
+        <label
+          for="content"
+          class="block text-sm font-medium text-(--fd-text-secondary)"
+          >Содержимое</label
+        >
         <textarea
           id="content"
           [(ngModel)]="content"
           name="content"
           rows="8"
           required
-          class="
-            mt-1 w-full px-4 py-2
-            rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary)
-            focus:outline-none focus:ring-2 focus:ring-(--fd-primary)
-            focus:border-transparent transition resize-y max-h-150
-          "
+          class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition resize-y max-h-150"
           placeholder="Напишите что-нибудь..."
         ></textarea>
       </div>
@@ -47,7 +47,9 @@
     </form>
 
     <div class="text-(--fd-text-primary) overflow-y-auto h-full">
-      <span class="block text-sm font-medium text-(--fd-text-secondary)">Markdown</span>
+      <span class="block text-sm font-medium text-(--fd-text-secondary)"
+        >Markdown</span
+      >
       <markdown class="markdown-body" [data]="content" />
     </div>
   </div>
