@@ -33,6 +33,7 @@ export class Post implements OnInit, OnDestroy {
   private _subscription = new Subscription();
 
   public ngOnInit(): void {
+    // this._route.snapshot.data["post"] — Maybe;
     this._subscription = this._route.params
       .pipe(
         switchMap((params) => {
