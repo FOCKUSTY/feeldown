@@ -2,13 +2,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { NgModule } from '@angular/core';
 import { NewRoute } from './new';
-import { HomeRoute } from './home';
 import { PostRoute } from './post';
 
 export const routes: Routes = [
   {
     path: 'posts',
-    children: [HomeRoute, NewRoute, PostRoute],
+    children: [NewRoute, PostRoute],
   },
 ];
 

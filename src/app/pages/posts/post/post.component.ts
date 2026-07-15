@@ -20,7 +20,7 @@ export class Post implements OnInit, OnDestroy {
   private readonly _router = inject(Router);
 
   protected readonly _post = signal<ClientPost | null>(null);
-  protected readonly _loading = signal<boolean>(true);
+  protected readonly _loaded = signal<boolean>(false);
   protected readonly _error = signal<string | null>(null);
 
   private _subscription = new Subscription();
@@ -35,7 +35,6 @@ export class Post implements OnInit, OnDestroy {
             return [];
           }
 
-          this._loading.set(true);
           this._error.set(null);
           return this.postService.get(id);
         }),
@@ -43,11 +42,11 @@ export class Post implements OnInit, OnDestroy {
       .subscribe({
         next: (post) => {
           this._post.set(post);
-          this._loading.set(false);
+          this._loaded.set(true);
         },
         error: (err) => {
           this._error.set(err.message || 'Не удалось загрузить пост.');
-          this._loading.set(false);
+          this._loaded.set(true);
         },
       });
   }

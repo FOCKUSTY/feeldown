@@ -21,7 +21,7 @@ export class Home implements OnInit, OnDestroy {
 
   protected readonly _user = signal<User | null>(null);
   protected readonly _posts = signal<Post[]>([]);
-  protected readonly _loading = signal<boolean>(true);
+  protected readonly _loaded = signal<boolean>(false);
   protected readonly _error = signal<string | null>(null);
 
   private _subscription = new Subscription();
@@ -35,7 +35,6 @@ export class Home implements OnInit, OnDestroy {
             this._router.navigate(['/']);
             return of(null);
           }
-          this._loading.set(true);
           this._error.set(null);
 
           return forkJoin({
@@ -51,8 +50,8 @@ export class Home implements OnInit, OnDestroy {
       .subscribe({
         next: (result) => {
           if (!result) {
-            this._loading.set(false);
-            return
+            this._loaded.set(true);
+            return;
           }
 
           if (!result.user) {
@@ -61,11 +60,11 @@ export class Home implements OnInit, OnDestroy {
             this._user.set(result.user);
             this._posts.set(result.posts);
           }
-          this._loading.set(false);
+          this._loaded.set(true);
         },
         error: (err) => {
           this._error.set(err.message || 'Ошибка загрузки данных');
-          this._loading.set(false);
+          this._loaded.set(true);
         },
       });
   }

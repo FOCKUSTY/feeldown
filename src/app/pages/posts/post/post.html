@@ -1,5 +1,5 @@
 <div>
-  @let loading = _loading(); @if (loading) {
+  @let loaded = _loaded(); @if (!loaded) {
   <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
   } @else { @let error = _error(); @if (error) {
   <div
@@ -13,7 +13,8 @@
   } @else { @let post = _post(); @if (post) {
   <div class="flex flex-col max-h-200">
     <section class="text-(--fd-text-primary)">
-      Author: <a href="/users/@{{ post.user.username }}">{{ post.user.name }}</a>
+      Author:
+      <a href="/users/@{{ post.user.username }}">{{ post.user.name }}</a>
     </section>
 
     <article class="prose prose-invert max-w-none overflow-y-auto h-full">

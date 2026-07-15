@@ -1,5 +1,5 @@
 <div class="max-w-3xl mx-auto mt-12 px-4">
-  @let loading = _loading(); @if (loading) {
+  @let loaded = _loaded(); @if (!loaded) {
   <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
   } @else { @let error = _error(); @if (error) {
   <div
