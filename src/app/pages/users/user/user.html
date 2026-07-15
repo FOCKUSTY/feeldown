@@ -1,4 +1,4 @@
-<div class="max-w-3xl mx-auto mt-12 px-4">
+<div class="max-w-3xl mx-auto mt-6 md:mt-12 px-4">
   @let loaded = _loaded(); @if (!loaded) {
   <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
   } @else { @let error = _error(); @if (error) {
@@ -12,7 +12,9 @@
   </div>
   } @else { @let user = _user(); @if (user) {
   <div class="mb-8">
-    <h1 class="text-3xl font-bold text-(--fd-text-primary)">{{ user.name }}</h1>
+    <h1 class="text-2xl md:text-3xl font-bold text-(--fd-text-primary)">
+      {{ user.name }}
+    </h1>
     <p class="text-(--fd-text-muted)">@{{ user.username }}</p>
   </div>
 
@@ -32,7 +34,7 @@
         [routerLink]="['/posts', post.id]"
         class="block hover:underline text-(--fd-primary)"
       >
-        <div class="text-(--fd-text-primary) line-clamp-3">
+        <div class="text-(--fd-text-primary) line-clamp-3 text-sm md:text-base">
           {{ post.content.length > 200 ? (post.content | slice:0:200) + '…' :
           post.content }}
         </div>

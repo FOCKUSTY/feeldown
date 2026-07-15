@@ -1,4 +1,4 @@
-<div>
+<div class="max-w-3xl mx-auto mt-6 md:mt-12 px-4">
   @let loaded = _loaded(); @if (!loaded) {
   <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
   } @else { @let error = _error(); @if (error) {
@@ -11,10 +11,15 @@
     <fd-button (clicked)="goBack()">Назад</fd-button>
   </div>
   } @else { @let post = _post(); @if (post) {
-  <div class="flex flex-col max-h-200">
-    <section class="text-(--fd-text-primary)">
+  <div class="flex flex-col md:max-h-200">
+    <section class="text-sm md:text-base text-(--fd-text-primary)">
       Author:
-      <a href="/users/@{{ post.user.username }}">{{ post.user.name }}</a>
+      <a
+        href="/users/@{{ post.user.username }}"
+        class="text-(--fd-primary) hover:underline"
+      >
+        {{ post.user.name }}
+      </a>
     </section>
 
     <article class="prose prose-invert max-w-none overflow-y-auto h-full">
