@@ -1,23 +1,27 @@
-import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
-import { env } from "../env";
-import { prisma } from "../prisma";
+import { NextFunction, Request, Response } from 'express';
+import { verify } from 'jsonwebtoken';
+import { env } from '../env';
+import { prisma } from '../prisma';
 
-export const tokenMiddleware = async (request: Request, _response: Response, next: NextFunction) => {
+export const tokenMiddleware = async (
+  request: Request,
+  _response: Response,
+  next: NextFunction,
+) => {
   const { authorization } = request.headers;
   if (!authorization) {
     return next();
   }
 
-  const [method, ...tokenData] = authorization.split(" ");
-  const token = tokenData.join(" ");
+  const [method, ...tokenData] = authorization.split(' ');
+  const token = tokenData.join(' ');
 
-  if (method !== "Bearer") {
+  if (method !== 'Bearer') {
     return next();
   }
 
   const payload = verify(token, env.HASH_KEY);
-  if (typeof payload === "string") {
+  if (typeof payload === 'string') {
     return next();
   }
 
@@ -26,15 +30,15 @@ export const tokenMiddleware = async (request: Request, _response: Response, nex
     return next();
   }
 
-  const [ user, auth ] = await prisma.$transaction([
-    prisma.user.findFirst({ where: { id: userId }}),
-    prisma.auth.findFirst({ where: { id: authId }})
+  const [user, auth] = await prisma.$transaction([
+    prisma.user.findFirst({ where: { id: userId } }),
+    prisma.auth.findFirst({ where: { id: authId } }),
   ]);
 
   request.user = {
     user,
-    auth
+    auth,
   };
 
   next();
-}
+};

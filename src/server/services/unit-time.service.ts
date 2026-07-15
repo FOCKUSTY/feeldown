@@ -1,35 +1,35 @@
 const UNIT = [
-  "years",
-  "year",
-  "yrs",
-  "yr",
-  "y",
-  "weeks",
-  "week",
-  "w",
-  "days",
-  "day",
-  "d",
-  "hours",
-  "hour",
-  "hrs",
-  "hr",
-  "h",
-  "minutes",
-  "minute",
-  "mins",
-  "min",
-  "m",
-  "seconds",
-  "second",
-  "secs",
-  "sec",
-  "s",
-  "milliseconds",
-  "millisecond",
-  "msecs",
-  "msec",
-  "ms",
+  'years',
+  'year',
+  'yrs',
+  'yr',
+  'y',
+  'weeks',
+  'week',
+  'w',
+  'days',
+  'day',
+  'd',
+  'hours',
+  'hour',
+  'hrs',
+  'hr',
+  'h',
+  'minutes',
+  'minute',
+  'mins',
+  'min',
+  'm',
+  'seconds',
+  'second',
+  'secs',
+  'sec',
+  's',
+  'milliseconds',
+  'millisecond',
+  'msecs',
+  'msec',
+  'ms',
 ] as const;
 
 export type Unit = (typeof UNIT)[number];
@@ -43,7 +43,7 @@ const UNIT_REGEX = /^(\d+)\s*([a-zA-Z]+)$/;
 
 export const validateString = (value?: string): StringValue => {
   if (!value) {
-    throw new Error("Value is not defined");
+    throw new Error('Value is not defined');
   }
 
   if (/^\d+$/.test(value)) {
@@ -62,7 +62,7 @@ export const validateString = (value?: string): StringValue => {
 
   if (!UNIT.includes(unit)) {
     throw new Error(
-      `Unknown unit: "${unitMatch}". Valid units are: ${UNIT.join(", ")}`,
+      `Unknown unit: "${unitMatch}". Valid units are: ${UNIT.join(', ')}`,
     );
   }
 

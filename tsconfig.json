@@ -17,9 +17,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": [
-      "node",
-    ]
+    "types": ["node"]
   },
   "include": ["src", "prisma.config.ts"],
   "angularCompilerOptions": {

@@ -1,6 +1,6 @@
-import type { Auth, User } from "./prisma.types"
+import type { Auth, User } from './prisma.types';
 
 export type ExpressUser = {
-  user: User,
-  auth: Auth
-}
+  user: User;
+  auth: Auth;
+};

@@ -1,9 +1,7 @@
-import type { Auth } from "../types";
+import type { Auth } from '../types';
 
-import { sign } from "jsonwebtoken";
+import { sign } from 'jsonwebtoken';
 
 export class Token {
-  public static create(auth: Auth) {
-
-  }
+  public static create(auth: Auth) {}
 }
