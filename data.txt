@@ -1,0 +1,2482 @@
+
+`D:\projects\me\feeldown\.editorconfig`
+```
+# Editor configuration, see https://editorconfig.org
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.ts]
+quote_type = single
+ij_typescript_use_double_quotes = false
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false
+
+```
+`D:\projects\me\feeldown\.gitignore`
+```
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+
+# System files
+.DS_Store
+Thumbs.db
+
+/src/server/prisma/generated/
+
+.env
+
+```
+`D:\projects\me\feeldown\.postcssrc.json`
+```.json
+{
+  "plugins": {
+    "@tailwindcss/postcss": {}
+  }
+}
+
+```
+`D:\projects\me\feeldown\angular.json`
+```.json
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "cli": {
+    "packageManager": "npm",
+    "analytics": false
+  },
+  "newProjectRoot": "projects",
+  "projects": {
+    "feeldown": {
+      "projectType": "application",
+      "schematics": {},
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "public"
+              }
+            ],
+            "styles": [
+              "src/styles.css",
+              "node_modules/prismjs/themes/prism-okaidia.css"
+            ],
+            "scripts": [
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-typescript.min.js",
+              "node_modules/prismjs/components/prism-css.min.js"
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "ssr": {
+              "entry": "src/server.ts"
+            }
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kB",
+                  "maximumError": "1MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4kB",
+                  "maximumError": "8kB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "feeldown:build:production"
+            },
+            "development": {
+              "buildTarget": "feeldown:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "test": {
+          "builder": "@angular/build:unit-test"
+        }
+      }
+    }
+  }
+}
+
+```
+`D:\projects\me\feeldown\LICENSE`
+```
+MIT License
+
+Copyright (c) 2026 FOCKUSTY
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
+`D:\projects\me\feeldown\package.json`
+```.json
+{
+  "name": "feeldown",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "serve:ssr:feeldown": "node dist/feeldown/server/server.mjs"
+  },
+  "dependencies": {
+    "@angular/common": "^21.1.0",
+    "@angular/compiler": "^21.1.0",
+    "@angular/core": "^21.1.0",
+    "@angular/forms": "^21.1.0",
+    "@angular/platform-browser": "^21.1.0",
+    "@angular/platform-server": "^21.1.0",
+    "@angular/router": "^21.1.0",
+    "@angular/ssr": "^21.1.2",
+    "@types/express-session": "^1.19.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/passport": "^1.0.17",
+    "@types/passport-google-oauth20": "^2.0.17",
+    "express": "^5.1.0",
+    "express-session": "^1.19.0",
+    "express-validator": "^7.3.2",
+    "fenviee": "^0.1.2",
+    "jsonwebtoken": "^9.0.3",
+    "ngx-cookie-service": "^22.0.0",
+    "ngx-markdown": "^22.0.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-oauth2": "^1.8.0",
+    "passport-telegram": "^1.0.0",
+    "prismjs": "^1.30.0",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0",
+    "uuid": "^14.0.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.1.2",
+    "@angular/cli": "^21.1.2",
+    "@angular/compiler-cli": "^21.1.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@tailwindcss/postcss": "^4.1.12",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.17.19",
+    "@types/passport-oauth2": "^1.8.0",
+    "dotenv": "^17.4.2",
+    "jsdom": "^27.1.0",
+    "pg": "^8.22.0",
+    "postcss": "^8.5.3",
+    "prisma": "^7.8.0",
+    "tailwindcss": "^4.1.12",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}
+
+```
+`D:\projects\me\feeldown\prisma.config.ts`
+```.ts
+import 'dotenv/config';
+import { defineConfig } from 'prisma/config';
+
+export default defineConfig({
+  schema: 'src/server/prisma/schema.prisma',
+  migrations: {
+    path: 'src/server/prisma/migrations',
+  },
+  datasource: {
+    url: process.env['DATABASE_URL'],
+  },
+});
+
+```
+`D:\projects\me\feeldown\tsconfig.app.json`
+```.json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/app",
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
+}
+
+```
+`D:\projects\me\feeldown\tsconfig.json`
+```.json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "preserve",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["src", "prisma.config.ts"],
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.spec.json"
+    }
+  ]
+}
+
+```
+`D:\projects\me\feeldown\README.md`
+```.md
+# Feeldown
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+ng serve
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+
+## Code scaffolding
+
+Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+
+```bash
+ng generate component component-name
+```
+
+For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+
+```bash
+ng generate --help
+```
+
+## Building
+
+To build the project run:
+
+```bash
+ng build
+```
+
+This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+
+## Running unit tests
+
+To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+
+```bash
+ng test
+```
+
+## Running end-to-end tests
+
+For end-to-end (e2e) testing, run:
+
+```bash
+ng e2e
+```
+
+Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+
+## Additional Resources
+
+For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+```
+`D:\projects\me\feeldown\tsconfig.spec.json`
+```.json
+/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
+/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./out-tsc/spec",
+    "types": ["vitest/globals"]
+  },
+  "include": ["src/**/*.d.ts", "src/**/*.spec.ts"]
+}
+
+```
+`D:\projects\me\feeldown\src\index.html`
+```.html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Feeldown</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  </head>
+  <body>
+    <app-root></app-root>
+  </body>
+</html>
+
+```
+`D:\projects\me\feeldown\src\main.server.ts`
+```.ts
+import {
+  BootstrapContext,
+  bootstrapApplication,
+} from '@angular/platform-browser';
+import { App } from './app/app';
+import { config } from './app/app.config.server';
+
+const bootstrap = (context: BootstrapContext) =>
+  bootstrapApplication(App, config, context);
+
+export default bootstrap;
+
+```
+`D:\projects\me\feeldown\src\main.ts`
+```.ts
+import { bootstrapApplication } from '@angular/platform-browser';
+import { appConfig } from './app/app.config';
+import { App } from './app/app';
+
+bootstrapApplication(App, appConfig).catch((err) => console.error(err));
+
+```
+`D:\projects\me\feeldown\src\server.ts`
+```.ts
+import 'dotenv/config';
+
+import {
+  AngularNodeAppEngine,
+  createNodeRequestHandler,
+  isMainModule,
+  writeResponseToNodeResponse,
+} from '@angular/ssr/node';
+
+import express from 'express';
+import session from 'express-session';
+import { join } from 'node:path';
+import passport from 'passport';
+import { router } from './server/routes';
+
+import './server/strategies';
+import { env } from './server/env';
+
+const browserDistFolder = join(import.meta.dirname, '../browser');
+
+const app = express();
+const angularApp = new AngularNodeAppEngine();
+
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(
+  session({
+    secret: env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  }),
+);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api', router);
+
+app.use(
+  express.static(browserDistFolder, {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+  }),
+);
+
+app.use((req, res, next) => {
+  angularApp
+    .handle(req)
+    .then((response) =>
+      response ? writeResponseToNodeResponse(response, res) : next(),
+    )
+    .catch(next);
+});
+
+if (isMainModule(import.meta.url) || process.env['pm_id']) {
+  const port = env.PORT;
+  app.listen(port, (error) => {
+    if (error) {
+      throw error;
+    }
+
+    console.log(`Node Express server listening on http://localhost:${port}`);
+  });
+}
+
+export const reqHandler = createNodeRequestHandler(app);
+
+```
+`D:\projects\me\feeldown\src\styles.css`
+```.css
+@import "tailwindcss";
+
+@import "./styles/markdown.style.css";
+@import "./styles/scroll.style.css";
+
+:root {
+  --fd-primary: #4f46e5;
+  --fd-primary-hover: #4338ca;
+  --fd-secondary: #8b5cf6;
+
+  --fd-bg-page: #fafafa;
+  --fd-bg-card: #ffffff;
+  --fd-bg-input: #f1f5f9;
+
+  --fd-text-primary: #0f172a;
+  --fd-text-secondary: #475569;
+  --fd-text-muted: #94a3b8;
+
+  --fd-border: #e2e8f0;
+  --fd-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  --fd-radius: 0.75rem;
+  --fd-spacing: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fd-bg-page: #0f172a;
+    --fd-bg-card: #1e293b;
+    --fd-bg-input: #334155;
+    --fd-text-primary: #f8fafc;
+    --fd-text-secondary: #cbd5e1;
+    --fd-text-muted: #64748b;
+    --fd-border: #334155;
+    --fd-shadow:
+      0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\utils\load-module.ts`
+```.ts
+import type { Type } from '@angular/core';
+import type { Route } from '@angular/router';
+
+export const convertToRouteModule = <T extends Type<unknown>>(
+  module: Promise<{ default: T }>,
+  route?: Route,
+): Route => {
+  return {
+    path: '',
+    ...route,
+    loadChildren: () => module.then((m) => m.default),
+  };
+};
+
+```
+`D:\projects\me\feeldown\src\utils\use-layout.ts`
+```.ts
+import type { Route, Routes } from '@angular/router';
+import type { Layouts } from '@/app/layouts';
+
+export const useLayout = ({
+  layout,
+  routes,
+  route,
+}: {
+  layout: Layouts;
+  routes: Routes;
+  route?: Route;
+}): Route => {
+  return {
+    path: '',
+    ...route,
+    component: layout,
+    children: routes,
+  };
+};
+
+```
+`D:\projects\me\feeldown\src\styles\base-host.style.css`
+```.css
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+```
+`D:\projects\me\feeldown\src\styles\markdown.style.css`
+```.css
+.markdown-body {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--fd-text-primary);
+  background: transparent;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--fd-text-primary);
+}
+
+.markdown-body h1 {
+  font-size: 2rem;
+  border-bottom: 2px solid var(--fd-border);
+  padding-bottom: 0.3em;
+}
+.markdown-body h2 {
+  font-size: 1.6rem;
+  border-bottom: 1px solid var(--fd-border);
+  padding-bottom: 0.3em;
+}
+.markdown-body h3 {
+  font-size: 1.3rem;
+}
+.markdown-body h4 {
+  font-size: 1.1rem;
+}
+.markdown-body h5 {
+  font-size: 1rem;
+}
+.markdown-body h6 {
+  font-size: 0.9rem;
+  color: var(--fd-text-secondary);
+}
+
+.markdown-body p {
+  margin: 0 0 1em 0;
+}
+.markdown-body p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+.markdown-body ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+}
+
+.markdown-body ul ul {
+  list-style-type: circle;
+}
+.markdown-body ul ul ul {
+  list-style-type: square;
+}
+.markdown-body ol ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  margin: 0 0 1em 1.5em;
+  padding: 0;
+}
+.markdown-body li {
+  margin-bottom: 0.25em;
+}
+.markdown-body ul ul,
+.markdown-body ol ol,
+.markdown-body ul ol,
+.markdown-body ol ul {
+  margin-bottom: 0;
+}
+
+.markdown-body a {
+  color: var(--fd-primary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.markdown-body a:hover {
+  border-bottom-color: var(--fd-primary);
+  color: var(--fd-primary-hover);
+}
+
+.markdown-body blockquote {
+  margin: 0 0 1em 0;
+  padding: 0.5em 1em;
+  border-left: 4px solid var(--fd-primary);
+  background: var(--fd-bg-input);
+  border-radius: 0 var(--fd-radius) var(--fd-radius) 0;
+  color: var(--fd-text-secondary);
+}
+.markdown-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body code:not(pre code) {
+  padding: 0.2em 0.4em;
+  border-radius: 0.3rem;
+  background: var(--fd-bg-input);
+  font-size: 0.9em;
+  color: var(--fd-text-primary);
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+.markdown-body pre {
+  margin: 0 0 1em 0;
+  padding: 1em;
+  border-radius: var(--fd-radius);
+  background: var(--fd-bg-input);
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  border: 1px solid var(--fd-border);
+}
+.markdown-body pre code {
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
+  color: inherit;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.markdown-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1em 0;
+  font-size: 0.95rem;
+}
+.markdown-body th,
+.markdown-body td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--fd-border);
+  text-align: left;
+}
+.markdown-body th {
+  background: var(--fd-bg-input);
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  border: none;
+  height: 1px;
+  background: var(--fd-border);
+  margin: 2em 0;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--fd-radius);
+  box-shadow: var(--fd-shadow);
+  display: block;
+  margin: 1em auto;
+}
+
+.markdown-body input[type="checkbox"] {
+  margin-right: 0.5em;
+  accent-color: var(--fd-primary);
+}
+
+.markdown-body strong {
+  font-weight: 600;
+  color: var(--fd-text-primary);
+}
+.markdown-body em {
+  font-style: italic;
+}
+
+.markdown-body figcaption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--fd-text-muted);
+  margin-top: 0.3em;
+}
+
+```
+`D:\projects\me\feeldown\src\styles\scroll.style.css`
+```.css
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--fd-secondary) var(--fd-bg-input);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--fd-bg-input);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--fd-primary);
+  border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--fd-primary-hover);
+}
+
+*::-webkit-scrollbar-corner {
+  background: var(--fd-bg-page);
+}
+
+```
+`D:\projects\me\feeldown\src\server\env.ts`
+```.ts
+import { Env, isArray, isPort } from 'fenviee';
+import { validateString as validateUnitString } from './services/unit-time.service';
+
+export const env = Env.create(process.env)({
+  default: {
+    PRISMA_CONNECTION_TYPE: 'adapter',
+  },
+  partial: ['PRISMA_CONNECTION_TYPE'],
+  required: [
+    'DATABASE_URL',
+    'GOOGLE_CLIENT_ID',
+    'GOOGLE_CLIENT_SECRET',
+    'GOOGLE_CALLBACK_URL',
+    'SESSION_SECRET',
+    'HASH_KEY',
+    'CALLBACK_URL',
+  ],
+  unique: {
+    PORT: isPort,
+    TOKEN_EXPIRATION: validateUnitString,
+    ALLOWED_HOSTS: isArray(','),
+  },
+});
+
+```
+`D:\projects\me\feeldown\src\server\types\data.types.ts`
+```.ts
+export type Data<T> = {
+  data: T;
+};
+
+```
+`D:\projects\me\feeldown\src\server\types\express-user.types.ts`
+```.ts
+import type { Auth, User } from './prisma.types';
+
+export type ExpressUser = {
+  user: User;
+  auth: Auth;
+};
+
+```
+`D:\projects\me\feeldown\src\server\types\index.ts`
+```.ts
+export * from './prisma.types';
+export * from './express-user.types';
+export * from './data.types';
+
+```
+`D:\projects\me\feeldown\src\server\types\prisma.types.ts`
+```.ts
+export * from '../prisma/generated/client';
+
+```
+`D:\projects\me\feeldown\src\server\strategies\google.strategy.ts`
+```.ts
+import type { VerifyCallback } from 'passport-oauth2';
+import { Strategy } from 'passport-google-oauth20';
+
+import passport from 'passport';
+import { prisma } from '../prisma';
+import { env } from '../env';
+import { v4 as uuid } from 'uuid';
+import { sign } from 'jsonwebtoken';
+
+passport.serializeUser((user: any, done) => {
+  return done(null, user.user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  const [user, auth] = await prisma.$transaction([
+    prisma.user.findUnique({
+      where: {
+        id: id as string,
+      },
+    }),
+    prisma.auth.findFirst({
+      where: {
+        userId: id as string,
+      },
+    }),
+  ]);
+
+  if (auth && user) {
+    return done(null, { auth, user });
+  }
+
+  return done(null, null);
+});
+
+passport.use(
+  new Strategy(
+    {
+      clientID: env.GOOGLE_CLIENT_ID,
+      clientSecret: env.GOOGLE_CLIENT_SECRET,
+      callbackURL: env.GOOGLE_CALLBACK_URL,
+      scope: ['openid', 'profile', 'email'],
+    },
+    async (
+      accessToken: string,
+      refreshToken: string,
+      profile,
+      done: VerifyCallback,
+    ) => {
+      const existedAuth = await prisma.auth.findFirst({
+        where: {
+          provider: profile.provider,
+          providerId: profile.id,
+        },
+      });
+
+      if (existedAuth) {
+        const user = await prisma.user.findUnique({
+          where: {
+            id: existedAuth.userId,
+          },
+        });
+
+        if (!user) {
+          throw new Error('user not found');
+        }
+
+        return done(null, { auth: existedAuth, user });
+      }
+
+      const authId = uuid();
+      const userId = uuid();
+      const token = sign(
+        {
+          authId,
+          userId,
+          accessToken,
+        },
+        env.HASH_KEY,
+        {
+          expiresIn: env.TOKEN_EXPIRATION,
+        },
+      );
+
+      const [user, auth] = await prisma.$transaction([
+        prisma.user.create({
+          data: {
+            id: userId,
+            username: uuid(),
+            name: profile.username || profile.displayName,
+          },
+        }),
+        prisma.auth.create({
+          data: {
+            id: authId,
+            provider: profile.provider,
+            providerId: profile.id,
+            email: profile.emails?.[0].value,
+            token,
+            userId,
+            accessToken,
+            refreshToken,
+          },
+        }),
+      ]);
+
+      return done(null, { user, auth });
+    },
+  ),
+);
+
+```
+`D:\projects\me\feeldown\src\server\services\token.service.ts`
+```.ts
+import type { Auth } from '../types';
+
+import { sign } from 'jsonwebtoken';
+
+export class Token {
+  public static create(auth: Auth) {}
+}
+
+```
+`D:\projects\me\feeldown\src\server\strategies\index.ts`
+```.ts
+export * from './google.strategy';
+
+```
+`D:\projects\me\feeldown\src\server\services\unit-time.service.ts`
+```.ts
+const UNIT = [
+  'years',
+  'year',
+  'yrs',
+  'yr',
+  'y',
+  'weeks',
+  'week',
+  'w',
+  'days',
+  'day',
+  'd',
+  'hours',
+  'hour',
+  'hrs',
+  'hr',
+  'h',
+  'minutes',
+  'minute',
+  'mins',
+  'min',
+  'm',
+  'seconds',
+  'second',
+  'secs',
+  'sec',
+  's',
+  'milliseconds',
+  'millisecond',
+  'msecs',
+  'msec',
+  'ms',
+] as const;
+
+export type Unit = (typeof UNIT)[number];
+export type UnitAnyCase = Unit | Uppercase<Unit> | Lowercase<Unit>;
+export type StringValue =
+  | `${number}`
+  | `${number}${UnitAnyCase}`
+  | `${number} ${UnitAnyCase}`;
+
+const UNIT_REGEX = /^(\d+)\s*([a-zA-Z]+)$/;
+
+export const validateString = (value?: string): StringValue => {
+  if (!value) {
+    throw new Error('Value is not defined');
+  }
+
+  if (/^\d+$/.test(value)) {
+    return value as StringValue;
+  }
+
+  const match = value.match(UNIT_REGEX);
+  if (!match) {
+    throw new Error(
+      `Invalid format: "${value}". Expected "{number}{unit}" or "{number} {unit}"`,
+    );
+  }
+
+  const [, , unitMatch] = match;
+  const unit = unitMatch.toLowerCase() as Unit;
+
+  if (!UNIT.includes(unit)) {
+    throw new Error(
+      `Unknown unit: "${unitMatch}". Valid units are: ${UNIT.join(', ')}`,
+    );
+  }
+
+  return value as StringValue;
+};
+
+```
+`D:\projects\me\feeldown\src\server\routes\index.ts`
+```.ts
+import { Router } from 'express';
+
+import { tokenMiddleware } from '../middlewares';
+
+import { router as auth } from './auth';
+import { router as users } from './users';
+import { router as posts } from './posts';
+
+export const router = Router();
+
+router.use(tokenMiddleware);
+
+router.use('/auth', auth);
+router.use('/users', users);
+router.use('/posts', posts);
+
+```
+`D:\projects\me\feeldown\src\server\routes\users\index.ts`
+```.ts
+export * from './user.routes';
+
+```
+`D:\projects\me\feeldown\src\server\routes\users\user.routes.ts`
+```.ts
+import { ExpressUser } from '@/server/types';
+import { Router } from 'express';
+
+export const router = Router();
+
+router.get('/@me', (request, response) => {
+  const user = request.user as ExpressUser | undefined;
+  response.json({ data: user?.user || null });
+});
+
+```
+`D:\projects\me\feeldown\src\server\routes\posts\index.ts`
+```.ts
+export * from './post.routes';
+
+```
+`D:\projects\me\feeldown\src\server\routes\posts\post.routes.ts`
+```.ts
+import { prisma } from '@/server/prisma';
+import { ExpressUser } from '@/server/types';
+import { HttpStatusCode } from '@angular/common/http';
+import { Router } from 'express';
+import { body } from 'express-validator';
+
+export const router = Router();
+
+router.post(
+  '/',
+  body('content').isString().trim(),
+  async (request, response) => {
+    const user = request.user as ExpressUser | undefined;
+    if (!user) {
+      response.sendStatus(HttpStatusCode.Unauthorized);
+      return;
+    }
+
+    const post = await prisma.post.create({
+      data: {
+        userId: user.user.id,
+        content: request.body.content,
+      },
+    });
+
+    response.send({ data: post });
+  },
+);
+
+router.get('/:id', async (request, response) => {
+  const { id } = request.params;
+
+  const post = await prisma.post.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  response.send({ data: post });
+});
+
+```
+`D:\projects\me\feeldown\src\server\routes\auth\auth.routes.ts`
+```.ts
+import { env } from '@/server/env';
+import { ExpressUser } from '@/server/types';
+import { Router } from 'express';
+
+import passport from 'passport';
+
+export const router = Router();
+
+router.get('/google', passport.authenticate('google'));
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google'),
+  (request, response) => {
+    const user = request.user as ExpressUser | undefined;
+    if (!user) {
+      response.redirect(env.CALLBACK_URL);
+      return;
+    }
+
+    response.redirect(`${env.CALLBACK_URL}?token=${user.auth.token}`);
+  },
+);
+
+```
+`D:\projects\me\feeldown\src\server\routes\auth\index.ts`
+```.ts
+export * from './auth.routes';
+
+```
+`D:\projects\me\feeldown\src\server\prisma\index.ts`
+```.ts
+export * from './prisma.service';
+
+```
+`D:\projects\me\feeldown\src\server\prisma\prisma.service.ts`
+```.ts
+import { env } from '../env';
+import { PrismaClient } from './generated/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+
+const ADAPTER =
+  env.PRISMA_CONNECTION_TYPE === 'adapter'
+    ? new PrismaPg({
+        connectionString: env.DATABASE_URL,
+        min: 2,
+        idleTimeoutMillis: 10 * 60 * 1000,
+        connectionTimeoutMillis: 20 * 1000,
+        maxLifetimeSeconds: 15 * 60,
+        max: 10,
+      })
+    : undefined;
+
+const ACCELERATE_URL =
+  env.PRISMA_CONNECTION_TYPE === 'adapter' ? undefined : env.DATABASE_URL;
+
+const OPTIONS = {
+  adapter: ADAPTER,
+  accelerateUrl: ACCELERATE_URL,
+} as ConstructorParameters<typeof PrismaClient>[0];
+
+export const prisma = new PrismaClient(OPTIONS);
+
+```
+`D:\projects\me\feeldown\src\server\prisma\schema.prisma`
+```.prisma
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Auth {
+  id           String  @id @default(uuid())
+  email        String? @unique
+
+  userId       String  @unique
+  providerId   String
+  provider     String
+
+  accessToken  String
+  refreshToken String?
+  token        String
+}
+
+model User {
+  id           String @id @default(uuid())
+  username     String @unique
+  name         String
+
+  posts Post[]
+}
+
+model Post {
+  id      String @id @default(uuid())
+  userId  String
+
+  content String
+
+  user    User @relation(fields: [userId], references: [id])
+}
+
+```
+`D:\projects\me\feeldown\src\server\prisma\migrations\migration_lock.toml`
+```.toml
+# Please do not edit this file manually
+# It should be added in your version-control system (e.g., Git)
+provider = "postgresql"
+
+```
+`D:\projects\me\feeldown\src\server\prisma\migrations\20260715054255_main\migration.sql`
+```.sql
+-- CreateTable
+CREATE TABLE "Auth" (
+    "id" TEXT NOT NULL,
+    "email" TEXT,
+    "userId" TEXT NOT NULL,
+    "providerId" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
+
+    CONSTRAINT "Auth_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "username" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Auth_email_key" ON "Auth"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Auth_userId_key" ON "Auth"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
+
+```
+`D:\projects\me\feeldown\src\server\middlewares\index.ts`
+```.ts
+export * from './token.middleware';
+
+```
+`D:\projects\me\feeldown\src\server\prisma\migrations\20260715060242_main\migration.sql`
+```.sql
+/*
+  Warnings:
+
+  - Added the required column `accessToken` to the `Auth` table without a default value. This is not possible if the table is not empty.
+  - Added the required column `token` to the `Auth` table without a default value. This is not possible if the table is not empty.
+
+*/
+-- AlterTable
+ALTER TABLE "Auth" ADD COLUMN     "accessToken" TEXT NOT NULL,
+ADD COLUMN     "refreshToken" TEXT,
+ADD COLUMN     "token" TEXT NOT NULL;
+
+```
+`D:\projects\me\feeldown\src\server\middlewares\token.middleware.ts`
+```.ts
+import { NextFunction, Request, Response } from 'express';
+import { verify } from 'jsonwebtoken';
+import { env } from '../env';
+import { prisma } from '../prisma';
+
+export const tokenMiddleware = async (
+  request: Request,
+  _response: Response,
+  next: NextFunction,
+) => {
+  const { authorization } = request.headers;
+  if (!authorization) {
+    return next();
+  }
+
+  const [method, ...tokenData] = authorization.split(' ');
+  const token = tokenData.join(' ');
+
+  if (method !== 'Bearer') {
+    return next();
+  }
+
+  const payload = verify(token, env.HASH_KEY);
+  if (typeof payload === 'string') {
+    return next();
+  }
+
+  const { authId, userId } = payload;
+  if (!authId || !userId) {
+    return next();
+  }
+
+  const [user, auth] = await prisma.$transaction([
+    prisma.user.findFirst({ where: { id: userId } }),
+    prisma.auth.findFirst({ where: { id: authId } }),
+  ]);
+
+  request.user = {
+    user,
+    auth,
+  };
+
+  next();
+};
+
+```
+`D:\projects\me\feeldown\src\server\prisma\migrations\20260715102109_main\migration.sql`
+```.sql
+-- CreateTable
+CREATE TABLE "Post" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- AddForeignKey
+ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+```
+`D:\projects\me\feeldown\src\environments\environment.development.ts`
+```.ts
+export const environment = {
+  API_ORIGIN: 'https://localhost:4200',
+  BASE_PATH_NAME: '/api/',
+};
+
+```
+`D:\projects\me\feeldown\src\environments\environment.ts`
+```.ts
+export const environment = {
+  API_ORIGIN: 'https://localhost:4200',
+  BASE_PATH_NAME: '/api/',
+} as const;
+
+```
+`D:\projects\me\feeldown\src\app\app.config.server.ts`
+```.ts
+import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
+import { provideServerRendering, withRoutes } from '@angular/ssr';
+import { appConfig } from './app.config';
+import { serverRoutes } from './app.routes.server';
+
+const serverConfig: ApplicationConfig = {
+  providers: [provideServerRendering(withRoutes(serverRoutes))],
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+
+```
+`D:\projects\me\feeldown\src\app\app.config.ts`
+```.ts
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import {
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
+import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
+
+import { routes } from './app.module';
+import { provideMarkdown } from 'ngx-markdown';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideMarkdown({ loader: HttpClient }),
+    provideHttpClient(withFetch()),
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+  ],
+};
+
+```
+`D:\projects\me\feeldown\src\app\app.html`
+```.html
+<router-outlet></router-outlet>
+
+```
+`D:\projects\me\feeldown\src\app\app.module.ts`
+```.ts
+import { RouterModule, Routes } from '@angular/router';
+
+import { NgModule } from '@angular/core';
+
+import { useLayout } from '@/utils/use-layout';
+import { PagesRoutes } from './pages';
+import { Layouts } from './layouts';
+
+export const routes: Routes = [
+  useLayout({
+    layout: Layouts.NoLayout,
+    routes: PagesRoutes,
+  }),
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule],
+})
+export class AppModule {}
+
+```
+`D:\projects\me\feeldown\src\app\app.ts`
+```.ts
+import { Component, signal } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterOutlet],
+  templateUrl: './app.html',
+})
+export class App {}
+
+```
+`D:\projects\me\feeldown\src\app\app.routes.server.ts`
+```.ts
+import { RenderMode, ServerRoute } from '@angular/ssr';
+
+export const serverRoutes: ServerRoute[] = [
+  {
+    path: '**',
+    renderMode: RenderMode.Prerender,
+  },
+];
+
+```
+`D:\projects\me\feeldown\src\app\services\auth.service.ts`
+```.ts
+import { CookieService } from 'ngx-cookie-service';
+import { inject, Injectable } from '@angular/core';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private readonly cookie = inject(CookieService);
+
+  public constructor() {}
+
+  public getToken(): string | null {
+    return this.cookie.get('token') || null;
+  }
+
+  public setToken(token: string): void {
+    this.cookie.set('token', token);
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\services\http-base.service.ts`
+```.ts
+import type { Data } from '@/server/types';
+import type { Observable } from 'rxjs';
+
+import { CookieService } from 'ngx-cookie-service';
+import { inject } from '@angular/core';
+import { map } from 'rxjs';
+
+export abstract class HttpBaseService {
+  protected readonly cookie = inject(CookieService);
+
+  public constructor() {}
+
+  protected from<T>(observable: Observable<Data<T>>) {
+    return observable.pipe(
+      map((value) => {
+        return value.data;
+      }),
+    );
+  }
+
+  protected getHeaders(token?: string | null) {
+    const tempToken = token || this.cookie.get('token');
+    const authorizationString = (() => {
+      if (!tempToken) {
+        return '';
+      }
+
+      if (tempToken === 'undefined') {
+        return '';
+      }
+
+      return `Bearer ${tempToken}`;
+    })();
+
+    return {
+      authorization: authorizationString,
+    };
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\services\index.ts`
+```.ts
+export * from './auth.service';
+export * from './user.service';
+export * from './http-base.service';
+export * from './post.service';
+
+```
+`D:\projects\me\feeldown\src\app\services\post.service.ts`
+```.ts
+import type { Data, Post } from '@/server/types';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpBaseService } from './http-base.service';
+
+export interface PostCreate {
+  content: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class PostService extends HttpBaseService {
+  public constructor(private readonly http: HttpClient) {
+    super();
+  }
+
+  public get(id: string): Observable<Post> {
+    const data = this.http.get<Data<Post>>(`/api/posts/${id}`);
+    return this.from(data);
+  }
+
+  public create(post: PostCreate): Observable<Post> {
+    const data = this.http.post<Data<Post>>('/api/posts', post, {
+      headers: this.getHeaders(),
+    });
+
+    return this.from(data);
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\services\user.service.ts`
+```.ts
+import type { User, Data } from '@/server/types';
+
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { HttpBaseService } from './http-base.service';
+
+@Injectable({ providedIn: 'root' })
+export class UserService extends HttpBaseService {
+  public constructor(private readonly http: HttpClient) {
+    super();
+  }
+
+  public getMe(token?: string | null) {
+    const data = this.http.get<Data<User | null>>('/api/users/@me', {
+      responseType: 'json',
+      headers: this.getHeaders(token),
+    });
+
+    return this.from(data);
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\pages\index.ts`
+```.ts
+import { Routes } from '@angular/router';
+
+import { HomeRoute } from './home';
+import { PostsRoute } from './posts';
+
+export const PagesRoutes: Routes = [HomeRoute, PostsRoute];
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\index.ts`
+```.ts
+export * from './posts.route';
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\posts.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const PostsRoute = convertToRouteModule(import('./posts.module'));
+export default PostsRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\posts.module.ts`
+```.ts
+import { RouterModule, Routes } from '@angular/router';
+
+import { NgModule } from '@angular/core';
+import { NewRoute } from './new';
+import { HomeRoute } from './home';
+
+export const routes: Routes = [
+  {
+    path: 'posts',
+    children: [HomeRoute, NewRoute],
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class PostsModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\index.ts`
+```.ts
+export * from './post.route';
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.html`
+```.html
+<p>post works!</p>
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const PostRoute = convertToRouteModule(import('./post.module'));
+export default PostRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.module.ts`
+```.ts
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+
+import { Post } from './post.component';
+
+const routes: Routes = [
+  {
+    path: ':id',
+    component: Post,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class PostModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.spec.ts`
+```.ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Post } from './post.component';
+
+describe('Post', () => {
+  let component: Post;
+  let fixture: ComponentFixture<Post>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Post]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(Post);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\index.ts`
+```.ts
+export * from './new.route';
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\post\post.component.ts`
+```.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-post',
+  imports: [],
+  templateUrl: './post.html',
+})
+export class Post {
+
+}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\new.component.ts`
+```.ts
+import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+import { MarkdownComponent } from 'ngx-markdown';
+
+import { PostService, AuthService } from '@/app/services';
+import { FdButton } from '@/app/components';
+import { TEST_MARKDOWN } from '@/app/constants';
+
+@Component({
+  selector: 'app-new',
+  imports: [FormsModule, FdButton, MarkdownComponent],
+  templateUrl: './new.html',
+})
+export class New {
+  private readonly authService = inject(AuthService);
+  private readonly postService = inject(PostService);
+  protected readonly router = inject(Router);
+
+  protected content = TEST_MARKDOWN;
+  protected _submitting = signal<boolean>(false);
+  protected _error = signal<string | null>(null);
+
+  public constructor() {}
+
+  public ngAfterInit(): void {
+    const token = this.authService.getToken();
+    if (!token) {
+      this.router.navigate(['/']);
+    }
+  }
+
+  public onSubmit(): void {
+    if (!this.content.trim()) {
+      this._error.set('Содержимое не может быть пустым.');
+      return;
+    }
+
+    this._submitting.set(true);
+    this._error.set(null);
+
+    this.postService
+      .create({
+        content: this.content.trim(),
+      })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this._error.set(
+            err.message || 'Ошибка при создании поста. Попробуйте позже.',
+          );
+          this._submitting.set(false);
+        },
+      });
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\new.html`
+```.html
+<div class="px-4">
+  <h2 class="text-2xl font-bold text-(--fd-text-primary)">Новый пост</h2>
+  <p class="text-(--fd-text-muted) mt-1">Поделитесь своей мыслью</p>
+
+  <hr class="my-6 border-(--fd-border)" />
+
+  @let error = _error(); @if (error) {
+  <div
+    class="mb-4 p-3 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
+  }
+
+  <div class="grid grid-cols-2 gap-16 grid-rows-1 max-h-180">
+    <form (ngSubmit)="onSubmit()" class="space-y-5">
+      <div>
+        <label
+          for="content"
+          class="block text-sm font-medium text-(--fd-text-secondary)"
+          >Содержимое</label
+        >
+        <textarea
+          id="content"
+          [(ngModel)]="content"
+          name="content"
+          rows="8"
+          required
+          class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition resize-y max-h-150"
+          placeholder="Напишите что-нибудь..."
+        ></textarea>
+      </div>
+
+      <div class="flex items-center gap-4">
+        @let submitting = _submitting();
+        <fd-button type="submit" [disabled]="submitting">
+          {{ submitting ? 'Публикация...' : 'Опубликовать' }}
+        </fd-button>
+        <button
+          type="button"
+          (click)="router.navigate(['/'])"
+          class="cursor-pointer text-(--fd-text-muted) hover:text-(--fd-text-secondary) transition"
+        >
+          Отмена
+        </button>
+      </div>
+    </form>
+
+    <div class="text-(--fd-text-primary) overflow-y-auto h-full">
+      <span class="block text-sm font-medium text-(--fd-text-secondary)"
+        >Markdown</span
+      >
+      <markdown class="markdown-body" [data]="content" />
+    </div>
+  </div>
+</div>
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\new.module.ts`
+```.ts
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+
+import { New } from './new.component';
+
+const routes: Routes = [
+  {
+    path: 'new',
+    component: New,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class NewModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\new.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const NewRoute = convertToRouteModule(import('./new.module'));
+export default NewRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\new\new.spec.ts`
+```.ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { New } from './new.component';
+
+describe('New', () => {
+  let component: New;
+  let fixture: ComponentFixture<New>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [New],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(New);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.component.ts`
+```.ts
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-home',
+  imports: [],
+  templateUrl: './home.html',
+})
+export class Home {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.html`
+```.html
+<p>home works!</p>
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.module.ts`
+```.ts
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+
+import { Home } from './home.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: Home,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class HomeModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const HomeRoute = convertToRouteModule(import('./home.module'));
+export default HomeRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\home.spec.ts`
+```.ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Home } from './home.component';
+
+describe('Home', () => {
+  let component: Home;
+  let fixture: ComponentFixture<Home>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Home],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Home);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\home.component.ts`
+```.ts
+import type { User } from '@/server/types';
+import { Component, inject, signal, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Subscription, switchMap, tap } from 'rxjs';
+
+import { AuthService, UserService } from '@/app/services';
+import { environment } from '@/environments/environment';
+import { FdButton } from '@/app/components/fd-button/fd-button.component';
+
+@Component({
+  selector: 'app-home',
+  imports: [FdButton],
+  templateUrl: './home.html',
+})
+export class Home implements OnInit, OnDestroy {
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+
+  private readonly authService = inject(AuthService);
+  private readonly userService = inject(UserService);
+
+  protected readonly _token = signal<string | null>(null);
+  protected readonly _user = signal<User | null>(null);
+  protected readonly _loaded = signal<boolean>(false);
+
+  protected readonly _login_url = `${environment.API_ORIGIN}/api/auth/google`;
+
+  private _subscription = new Subscription();
+
+  public ngOnInit() {
+    this._subscription = this._route.queryParams
+      .pipe(
+        map((query) => query['token']),
+        tap((token) => this.setToken(token)),
+        switchMap((token) => this.getUser(token)),
+      )
+      .subscribe((user) => {
+        this._user.set(user);
+        this._loaded.set(true);
+      });
+  }
+
+  public ngOnDestroy() {
+    this._subscription.unsubscribe();
+  }
+
+  protected navigateTo(route: string) {
+    this._router.navigate([route]);
+  }
+
+  private setToken(token?: string): void {
+    if (!token || token === 'undefined') {
+      return;
+    }
+
+    this.authService.setToken(token);
+    this._token.set(token);
+  }
+
+  private getUser(token?: string) {
+    return this.userService.getMe(token);
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\pages\posts\home\index.ts`
+```.ts
+export * from './home.route';
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\home.html`
+```.html
+<div
+  class="max-w-3xl mx-auto mt-12 px-4 text-(--fd-text-primary) bg-(--fd-bg-page)"
+>
+  <h1 class="text-4xl font-bold text-center text-(--fd-text-primary)">
+    Feeldown
+  </h1>
+  <p class="text-center text-(--fd-text-muted) mt-2">
+    Простой способ делиться мыслями
+  </p>
+
+  <hr class="my-8 border-(--fd-border)" />
+
+  @let loaded = _loaded(); @if (loaded) { @let user = _user(); @if (user) {
+  <div class="text-center">
+    <p class="text-lg text-(--fd-text-primary)">
+      Привет, <span class="font-semibold">{{ user.name }}</span>! 👋
+    </p>
+    <p class="text-(--fd-text-secondary) mt-2">
+      Добро пожаловать в Feeldown — твой личный блог-движок.
+    </p>
+    <div class="mt-6">
+      <fd-button (clicked)="navigateTo('/posts/new')">
+        ✍️ Написать пост
+      </fd-button>
+    </div>
+  </div>
+  } @else {
+  <div class="text-center">
+    <p class="text-lg text-(--fd-text-primary)">Добро пожаловать в Feeldown!</p>
+    <p class="text-(--fd-text-secondary) mt-2">
+      Чтобы начать писать, войдите через Google.
+    </p>
+    <div class="mt-6">
+      <fd-button>
+        <a [href]="_login_url"> 🔑 Войти через Google </a>
+      </fd-button>
+    </div>
+  </div>
+  } } @else {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  }
+
+  <hr class="my-8 border-(--fd-border)" />
+
+  <div class="text-center text-sm text-(--fd-text-muted)">
+    <p>
+      <span>От</span>
+      <a
+        href="https://github.com/FOCKUSTY"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-(--fd-primary) hover:text-(--fd-primary-hover)"
+      >
+        FOCKUSTY
+      </a>
+      <span>для удобства</span>
+    </p>
+    <p class="mt-1">
+      <a
+        href="https://github.com/FOCKUSTY/feeldown"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-(--fd-primary) hover:text-(--fd-primary-hover)"
+      >
+        Исходный код на GitHub
+      </a>
+    </p>
+  </div>
+</div>
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\home.module.ts`
+```.ts
+import { Routes, RouterModule } from '@angular/router';
+import { NgModule } from '@angular/core';
+
+import { Home } from './home.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: Home,
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export default class HomeModule {}
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\home.route.ts`
+```.ts
+import { convertToRouteModule } from '@/utils/load-module';
+
+export const HomeRoute = convertToRouteModule(import('./home.module'));
+export default HomeRoute;
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\home.spec.ts`
+```.ts
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Home } from './home.component';
+
+describe('Home', () => {
+  let component: Home;
+  let fixture: ComponentFixture<Home>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [Home],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(Home);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\pages\home\index.ts`
+```.ts
+export * from './home.route';
+
+```
+`D:\projects\me\feeldown\src\app\layouts\index.ts`
+```.ts
+import { NoLayout } from './nolayout/nolayout.component';
+
+export const Layouts = {
+  NoLayout,
+} as const;
+
+export type Layouts = (typeof Layouts)[keyof typeof Layouts];
+
+```
+`D:\projects\me\feeldown\src\app\layouts\nolayout\nolayout.component.ts`
+```.ts
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'no-layout',
+  templateUrl: './nolayout.html',
+  imports: [RouterOutlet],
+})
+export class NoLayout {}
+
+```
+`D:\projects\me\feeldown\src\app\layouts\nolayout\nolayout.html`
+```.html
+<div
+  class="min-h-screen bg-(--fd-bg-page) px-4 py-4 sm:px-6 sm:py-8 md:px-12 md:py-16"
+>
+  <router-outlet></router-outlet>
+</div>
+
+```
+`D:\projects\me\feeldown\src\app\constants\index.ts`
+```.ts
+export * from './test-markdown.constants';
+
+```
+`D:\projects\me\feeldown\src\app\constants\test-markdown.constants.ts`
+```.ts
+export const TEST_MARKDOWN = `
+# Заголовок первого уровня
+## Заголовок второго уровня
+### Заголовок третьего уровня
+#### Заголовок четвёртого уровня
+
+Это обычный параграф. Здесь может быть **жирный текст** и *курсив*, а также \`инлайн-код\`. Можно вставлять [ссылки](https://feeldown.app) и даже **смешанное форматирование**.
+
+---
+
+## Списки
+
+### Маркированный список
+- Элемент 1
+- Элемент 2
+  - Вложенный элемент 2.1
+  - Вложенный элемент 2.2
+    - Ещё глубже 2.2.1
+- Элемент 3
+
+### Нумерованный список
+1. Первый пункт
+2. Второй пункт
+   1. Подпункт 2.1
+   2. Подпункт 2.2
+3. Третий пункт
+
+### Смешанный список
+- Пункт A
+  1. Подпункт A1
+  2. Подпункт A2
+- Пункт B
+  - Вложенный B1
+  - Вложенный B2
+
+---
+
+## Цитаты
+
+> Это блок цитирования. Он может содержать несколько параграфов.
+>
+> Второй параграф внутри цитаты. Также можно использовать **жирный** и *курсив*.
+
+---
+
+## Код
+
+Инлайн-код: \`const foo = 'bar';\`
+
+Блок кода:
+\`\`\`javascript
+function greet(name) {
+  console.log(\`Hello, \${name}!\`);
+}
+greet('Feeldown');
+\`\`\`
+
+\`\`\`python
+def hello():
+  print("Привет, мир!")
+\`\`\`
+
+---
+
+## Таблица
+
+| Столбец 1 | Столбец 2 | Столбец 3 |
+| --------- | --------- | --------- |
+| Ячейка 1  | Ячейка 2  | Ячейка 3  |
+| Данные    | Ещё       | И ещё     |
+| Итог      | Итог2     | Итог3     |
+
+---
+
+## Изображение
+
+![Логотип Feeldown](https://upload.wikimedia.org/wikipedia/commons/a/a0/1752_James_Ayscough_A_short_account_of_the_Eye_and_nature_of_vision_p30.jpg)
+
+---
+
+## Чекбоксы (задачи)
+
+- [x] Сделать дизайн
+- [ ] Написать бэкенд
+- [ ] Задеплоить
+
+---
+
+## Горизонтальная линия
+
+---
+
+## Смесь всего
+
+В этом параграфе есть **жирный**, *курсив*, ~~зачёркнутый~~, \`код\`, [ссылка](https://example.com), а также смайлики 😊 и эмодзи ✨.
+
+> А здесь цитата с **жирным** внутри.
+
+И ещё список задач:
+- [ ] Изучить Angular
+- [x] Изучить Prisma
+- [ ] Сделать проект
+
+---
+
+## Вложенные цитаты
+
+> Уровень 1
+>> Уровень 2
+>>> Уровень 3
+`;
+
+```
+`D:\projects\me\feeldown\src\app\components\index.ts`
+```.ts
+export * from './fd-button';
+
+```
+`D:\projects\me\feeldown\src\app\components\fd-button\fd-button.component.ts`
+```.ts
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'fd-button',
+  standalone: true,
+  templateUrl: './fd-button.html',
+})
+export class FdButton {
+  private readonly router = inject(Router);
+
+  @Output()
+  public clicked = new EventEmitter<MouseEvent>();
+
+  @Input()
+  public type: 'button' | 'submit' | 'reset' = 'button';
+
+  @Input()
+  public disabled = false;
+
+  @Input()
+  public href?: string;
+
+  constructor() {}
+
+  public onClick(event: MouseEvent): void {
+    this.clicked.emit(event);
+
+    if (this.href) {
+      this.router.navigate([this.href]);
+    }
+  }
+}
+
+```
+`D:\projects\me\feeldown\src\app\components\fd-button\fd-button.html`
+```.html
+<button
+  (click)="onClick($event)"
+  [type]="type"
+  [disabled]="disabled"
+  class="cursor-pointer inline-block px-6 py-3 bg-(--fd-primary) hover:bg-(--fd-primary-hover) disabled:opacity-50 disabled:cursor-not-allowed text-white font-medium rounded-(--fd-radius) transition-colors"
+>
+  <ng-content></ng-content>
+</button>
+
+```
+`D:\projects\me\feeldown\src\app\components\fd-button\fd-button.spec.ts`
+```.ts
+import type { ComponentFixture } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { FdButton } from './fd-button.component';
+
+describe('TvButton', () => {
+  let component: FdButton;
+  let fixture: ComponentFixture<FdButton>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [FdButton],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(FdButton);
+    component = fixture.componentInstance;
+    await fixture.whenStable();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
+
+```
+`D:\projects\me\feeldown\src\app\components\fd-button\index.ts`
+```.ts
+export * from './fd-button.component';
+
+```

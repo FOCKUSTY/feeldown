@@ -1,0 +1,37 @@
+<div>
+  @let loading = _loading();
+  @if (loading) {
+    <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  } @else {
+    @let error = _error();
+    @if (error) {
+      <div class="p-4 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800">
+        {{ error }}
+      </div>
+      <div class="mt-4">
+        <fd-button (clicked)="goBack()">Назад</fd-button>
+      </div>
+    } @else {
+      @let post = _post();
+      @if (post) {
+        <div class="flex flex-col max-h-200">
+          <section class="text-(--fd-text-primary)">
+            Author: <a href="/user/{{ post.user.username }}">{{ post.user.name }}</a>
+          </section>
+
+          <article class="prose prose-invert max-w-none overflow-y-auto h-full">
+            <markdown class="markdown-body" [data]="post.content" />
+          </article>
+
+          <hr class="my-8 border-(--fd-border)" />
+
+          <div class="flex items-center gap-4">
+            <fd-button (clicked)="goBack()">← Назад</fd-button>
+          </div>
+        </div>
+      } @else {
+        <div class="text-center text-(--fd-text-muted)">Пост не найден.</div>
+      }
+    }
+  }
+</div>

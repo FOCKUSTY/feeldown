@@ -1,4 +1,4 @@
-import type { Data, Post } from '@/server/types';
+import type { Data, ClientPost, Post } from '@/server/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -14,8 +14,8 @@ export class PostService extends HttpBaseService {
     super();
   }
 
-  public get(id: string): Observable<Post> {
-    const data = this.http.get<Data<Post>>(`/api/posts/${id}`);
+  public get(id: string): Observable<ClientPost> {
+    const data = this.http.get<Data<ClientPost>>(`/api/posts/${id}`);
     return this.from(data);
   }
 
