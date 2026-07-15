@@ -35,8 +35,8 @@ router.get('/:id', async (request, response) => {
       id: id,
     },
     include: {
-      user: true
-    }
+      user: true,
+    },
   });
 
   response.send({ data: post });

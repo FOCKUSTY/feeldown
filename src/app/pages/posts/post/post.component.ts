@@ -1,4 +1,4 @@
-import type { ClientPost } from "@/server/types";
+import type { ClientPost } from '@/server/types';
 
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class Post implements OnInit, OnDestroy {
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
 
-  protected readonly _post = signal<ClientPost|null>(null);
+  protected readonly _post = signal<ClientPost | null>(null);
   protected readonly _loading = signal<boolean>(true);
   protected readonly _error = signal<string | null>(null);
 
@@ -37,7 +37,7 @@ export class Post implements OnInit, OnDestroy {
           this._loading.set(true);
           this._error.set(null);
           return this.postService.get(id);
-        })
+        }),
       )
       .subscribe({
         next: (post) => {
