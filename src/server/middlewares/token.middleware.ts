@@ -30,10 +30,12 @@ export const tokenMiddleware = async (
     return next();
   }
 
-  const [user, auth] = await prisma.$transaction([
-    prisma.user.findFirst({ where: { id: userId } }),
-    prisma.auth.findFirst({ where: { id: authId } }),
-  ]);
+  const auth = await prisma.auth.findFirst({ where: { id: authId } });
+  const user = await prisma.user.findFirst({ where: { id: userId } });
+
+  if (!auth || !user) {
+    return next();
+  }
 
   request.user = {
     user,

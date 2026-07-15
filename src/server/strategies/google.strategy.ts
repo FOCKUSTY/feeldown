@@ -12,18 +12,17 @@ passport.serializeUser((user: any, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  const [user, auth] = await prisma.$transaction([
-    prisma.user.findUnique({
-      where: {
-        id: id as string,
-      },
-    }),
-    prisma.auth.findFirst({
-      where: {
-        userId: id as string,
-      },
-    }),
-  ]);
+  const user = await prisma.user.findUnique({
+    where: {
+      id: id as string,
+    },
+  });
+
+  const auth = await prisma.auth.findFirst({
+    where: {
+      userId: id as string,
+    },
+  });
 
   if (auth && user) {
     return done(null, { auth, user });
