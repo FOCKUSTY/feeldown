@@ -1,6 +1,19 @@
 {
   "name": "feeldown",
   "version": "0.0.0",
+  "description": "Социальная платформа для публикации заметок в Markdown с аутентификацией Google OAuth, SSR и Prisma",
+  "keywords": [
+    "angular",
+    "express",
+    "prisma",
+    "postgresql",
+    "markdown",
+    "google-oauth",
+    "ssr",
+    "typescript",
+    "blog",
+    "social-platform"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

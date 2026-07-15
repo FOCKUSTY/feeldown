@@ -1,59 +1,231 @@
 # Feeldown
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.2.
+**Feeldown** — социальная платформа для публикации заметок и статей в формате Markdown с аутентификацией через Google OAuth, серверным рендерингом (Angular SSR) и современным стеком на базе TypeScript.
 
-## Development server
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Angular](https://img.shields.io/badge/Angular-21-red)](https://angular.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-7-blue)](https://www.prisma.io/)
+[![Express](https://img.shields.io/badge/Express-5-green)](https://expressjs.com/)
 
-To start a local development server, run:
+---
+
+## Возможности
+
+- 🔐 **Аутентификация** через Google OAuth 2.0 (Passport.js)
+- ✍️ **Создание постов** с поддержкой полного синтаксиса Markdown
+- 👁️ **Просмотр постов** с подсветкой синтаксиса (Prism.js)
+- 👤 **Профили пользователей** и список их публикаций
+- ⚡ **Серверный рендеринг (SSR)** для быстрой загрузки и SEO
+- 🎨 **Адаптивный дизайн** на Tailwind CSS (светлая/тёмная тема)
+- 🗄️ **PostgreSQL** + **Prisma ORM** с миграциями и адаптером для пула соединений
+- 🚀 **Готов к деплою** на Vercel (включая серверные функции)
+- 🧩 **Модульная архитектура** с ленивой загрузкой маршрутов
+
+---
+
+## Технологический стек
+
+| Категория          | Технологии                                                                                     |
+|--------------------|------------------------------------------------------------------------------------------------|
+| **Фронтенд**       | Angular 21, TypeScript, Tailwind CSS, ngx-markdown, RxJS, Angular SSR                          |
+| **Бэкенд**         | Node.js, Express, Passport.js (Google OAuth), JWT, express-session, express-validator          |
+| **База данных**    | PostgreSQL, Prisma ORM (адаптер @prisma/adapter-pg)                                            |
+| **Инструменты**    | Angular CLI, pnpm, Vite, ESLint, TypeScript                                                    |
+| **Деплой**         | Vercel (с конфигурацией vercel.json)                                                           |
+| **Прочее**         | dotenv, fenviee (валидация env), uuid, ngx-cookie-service, Prism.js                           |
+
+---
+
+## Требования
+
+- Node.js **20+**
+- pnpm (рекомендуется) или npm
+- PostgreSQL (локально или облачный сервис, например [Neon](https://neon.tech))
+
+---
+
+## Установка и запуск
+
+### 1. Клонирование репозитория
 
 ```bash
-ng serve
+git clone https://github.com/FOCKUSTY/feeldown.git
+cd feeldown
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### 2. Установка зависимостей
 
 ```bash
-ng generate component component-name
+pnpm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3. Настройка переменных окружения
+
+Создайте файл `.env` в корне проекта со следующим содержимым (замените значения на свои):
+
+```env
+# PostgreSQL
+DATABASE_URL=postgresql://user:password@localhost:5432/feeldown
+
+# Google OAuth (получить в Google Cloud Console)
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_CALLBACK_URL=http://localhost:4200/api/auth/google/callback
+
+# Сессии и JWT
+SESSION_SECRET=supersecretkey
+HASH_KEY=anothersecretkey
+
+# Редирект после входа
+CALLBACK_URL=http://localhost:4200
+
+# Порт (по умолчанию 4200)
+PORT=4200
+
+# Срок жизни JWT (например, 7d, 24h, 60m)
+TOKEN_EXPIRATION=7d
+
+# Разрешённые хосты (через запятую)
+ALLOWED_HOSTS=localhost
+
+# Тип подключения Prisma: adapter или accelerate
+PRISMA_CONNECTION_TYPE=adapter
+```
+
+> **Важно:** файл `.env` не должен попадать в репозиторий (уже добавлен в `.gitignore`).
+
+### 4. Генерация клиента Prisma и миграции
 
 ```bash
-ng generate --help
+pnpm run generate
+npx prisma migrate dev --name init
 ```
 
-## Building
-
-To build the project run:
+### 5. Запуск в режиме разработки
 
 ```bash
-ng build
+pnpm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Приложение будет доступно по адресу: [http://localhost:4200](http://localhost:4200).
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Сборка для production
 
 ```bash
-ng test
+pnpm build
 ```
 
-## Running end-to-end tests
+Готовые артефакты появятся в папке `dist/feeldown`.
 
-For end-to-end (e2e) testing, run:
+---
+
+## API Endpoints
+
+Все ответы обёрнуты в объект `{ data: ... }`.
+
+### Аутентификация
+
+- `GET /api/auth/google` – редирект на страницу входа Google.
+- `GET /api/auth/google/callback` – колбэк OAuth. При успехе редиректит на `CALLBACK_URL?token=<JWT>`.
+
+### Пользователи
+
+- `GET /api/users/@me` – текущий авторизованный пользователь (требуется токен).
+- `GET /api/users/:slug` – данные пользователя. `slug` может быть `@username` или `id`.
+- `GET /api/users/:slug/posts` – список постов пользователя.
+
+### Посты
+
+- `POST /api/posts` – создать пост (требуется токен). Тело: `{ "content": "Markdown..." }`.
+- `GET /api/posts/:id` – получить пост с данными автора.
+
+---
+
+## Структура проекта
+
+```
+feeldown/
+├── api/                      # Точка входа для Vercel
+├── public/                   # Статические файлы
+├── src/
+│   ├── app/                  # Angular-приложение
+│   │   ├── components/       # UI-компоненты
+│   │   ├── constants/        # Константы (тестовый Markdown)
+│   │   ├── layouts/          # Компоненты layout
+│   │   ├── pages/            # Страницы (home, posts, users)
+│   │   ├── services/         # Сервисы (Auth, User, Post)
+│   │   ├── app.config.ts     # Конфигурация приложения
+│   │   ├── app.module.ts     # Маршрутизация
+│   │   └── app.ts            # Корневой компонент
+│   ├── server/               # Бэкенд (Express + Prisma)
+│   │   ├── middlewares/      # Мидлвары
+│   │   ├── prisma/           # Схема, клиент, миграции
+│   │   ├── routes/           # API-маршруты
+│   │   ├── strategies/       # Passport-стратегии
+│   │   ├── env.ts            # Валидация env
+│   │   └── server.ts         # Главный файл сервера
+│   ├── styles/               # Глобальные стили
+│   ├── utils/                # Утилиты
+│   ├── main.ts               # Точка входа клиента
+│   └── main.server.ts        # Точка входа SSR
+├── .env                      # Переменные окружения (не в репозитории)
+├── angular.json
+├── package.json
+├── prisma.config.ts
+├── tsconfig*.json
+├── vercel.json
+└── README.md
+```
+
+---
+
+## Тестирование
+
+Запуск юнит-тестов (Vitest):
 
 ```bash
-ng e2e
+pnpm test
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## Деплой на Vercel
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Проект уже настроен для деплоя на Vercel через `vercel.json`. Для развёртывания:
+
+1. Установите Vercel CLI:
+
+   ```bash
+   pnpm add -g vercel
+   ```
+
+2. Выполните деплой:
+
+   ```bash
+   vercel --prod
+   ```
+
+3. Настройте переменные окружения в панели Vercel (те же, что в `.env`).
+
+---
+
+## Лицензия
+
+Проект распространяется под лицензией MIT. Подробности в файле [LICENSE](LICENSE).
+
+---
+
+## Автор
+
+**FOCKUSTY**  
+
+- GitHub: [github.com/FOCKUSTY](https://github.com/FOCKUSTY)  
+- Telegram: [@fockusty](https://t.me/fockusty)
+
+---
+
+## Благодарности
+
+Всем авторам Open Source библиотек, которые сделали этот проект возможным.
