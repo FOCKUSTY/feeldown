@@ -1,3 +1,4 @@
+// post.component.ts
 import type { ClientPost } from '@/server/types';
 
 import { Component, inject, signal, OnInit, TransferState, makeStateKey } from '@angular/core';
@@ -24,7 +25,7 @@ export class Post implements OnInit {
   protected readonly _error = signal<string | null>(null);
 
   public ngOnInit(): void {
-    const post = this._route.snapshot.data['post'] as ClientPost;
+    const post = this._route.snapshot.data['post'] as ClientPost | null;
 
     if (post) {
       this._post.set(post);
