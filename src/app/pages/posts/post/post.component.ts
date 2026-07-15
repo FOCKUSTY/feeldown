@@ -1,12 +1,15 @@
 import type { ClientPost } from '@/server/types';
 
-import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, signal, OnInit, OnDestroy, TransferState, makeStateKey } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MarkdownComponent } from 'ngx-markdown';
 import { Subscription, switchMap } from 'rxjs';
 
 import { PostService } from '@/app/services';
 import { FdButton } from '@/app/components';
+import { Meta, Title } from '@angular/platform-browser';
+
+const POST_KEY = makeStateKey<ClientPost>('post');
 
 @Component({
   selector: 'app-post',
@@ -15,7 +18,11 @@ import { FdButton } from '@/app/components';
   templateUrl: './post.html',
 })
 export class Post implements OnInit, OnDestroy {
-  private readonly postService = inject(PostService);
+  private readonly _title = inject(Title);
+  private readonly _meta = inject(Meta);
+  private readonly _transfer_state = inject(TransferState);
+
+  private readonly _post_service = inject(PostService);
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
 
@@ -36,12 +43,14 @@ export class Post implements OnInit, OnDestroy {
           }
 
           this._error.set(null);
-          return this.postService.get(id);
+          return this._post_service.get(id);
         }),
       )
       .subscribe({
         next: (post) => {
           this._post.set(post);
+          this.updateMetaTags(post);
+          this._transfer_state.set(POST_KEY, post);
           this._loaded.set(true);
         },
         error: (err) => {
@@ -64,5 +73,26 @@ export class Post implements OnInit, OnDestroy {
 
   public goBack(): void {
     this._router.navigate(['/']);
+  }
+
+  private updateMetaTags(post: ClientPost): void {
+    const title = `${post.user.name} — Feeldown`;
+    this._title.setTitle(title);
+
+    const description = post.content.slice(0, 160) + (post.content.length > 160 ? '…' : '');
+
+    this._meta.updateTag({ name: 'description', content: description });
+    this._meta.updateTag({ property: 'og:title', content: title });
+    this._meta.updateTag({ property: 'og:description', content: description });
+
+    const url = `https://feeldown.vercel.app/posts/${post.id}`;
+    this._meta.updateTag({ property: 'og:url', content: url });
+    this._meta.updateTag({ property: 'og:type', content: 'article' });
+
+    this._meta.updateTag({ property: 'og:image', content: 'https://feeldown.vercel.app/og-image.png' });
+    this._meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this._meta.updateTag({ name: 'twitter:title', content: title });
+    this._meta.updateTag({ name: 'twitter:description', content: description });
+    this._meta.updateTag({ name: 'twitter:image', content: 'https://feeldown.vercel.app/og-image.png' });
   }
 }
