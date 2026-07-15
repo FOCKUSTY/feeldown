@@ -1,4 +1,4 @@
 export const environment = {
-  API_ORIGIN: 'https://localhost:4200',
+  API_ORIGIN: 'https://feeldown.vercel.app',
   BASE_PATH_NAME: '/api/',
 } as const;
