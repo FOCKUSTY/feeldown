@@ -1,3 +1,34 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import "tailwindcss";
+
+:root {
+  --fd-primary: #4f46e5;
+  --fd-primary-hover: #4338ca;
+  --fd-secondary: #8b5cf6;
+
+  --fd-bg-page: #fafafa;
+  --fd-bg-card: #ffffff;
+  --fd-bg-input: #f1f5f9;
+
+  --fd-text-primary: #0f172a;
+  --fd-text-secondary: #475569;
+  --fd-text-muted: #94a3b8;
+
+  --fd-border: #e2e8f0;
+  --fd-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+  --fd-radius: 0.75rem;
+  --fd-spacing: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fd-bg-page: #0f172a;
+    --fd-bg-card: #1e293b;
+    --fd-bg-input: #334155;
+    --fd-text-primary: #f8fafc;
+    --fd-text-secondary: #cbd5e1;
+    --fd-text-muted: #64748b;
+    --fd-border: #334155;
+    --fd-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  }
+}

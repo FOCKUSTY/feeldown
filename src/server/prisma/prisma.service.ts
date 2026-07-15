@@ -7,8 +7,8 @@ const ADAPTER =
     ? new PrismaPg({
         connectionString: env.DATABASE_URL,
         min: 2,
-        idleTimeoutMillis: 5 * 60 * 1000,
-        connectionTimeoutMillis: 10 * 1000,
+        idleTimeoutMillis: 10 * 60 * 1000,
+        connectionTimeoutMillis: 20 * 1000,
         maxLifetimeSeconds: 15 * 60,
         max: 10,
       })
