@@ -19,14 +19,14 @@
 
 ### 🛠️ Технологический стек
 
-| Категория          | Технологии                                                                                     |
-|--------------------|------------------------------------------------------------------------------------------------|
-| **Фронтенд**       | Angular 21, TypeScript, Tailwind CSS, ngx-markdown, RxJS, Angular SSR                          |
-| **Бэкенд**         | Node.js, Express, Passport.js (Google OAuth), JWT, express-session, express-validator          |
-| **База данных**    | PostgreSQL, Prisma ORM (с адаптером @prisma/adapter-pg)                                        |
-| **Инструменты**    | Angular CLI, pnpm, Vite (через @angular/build), ESLint, TypeScript                             |
-| **Деплой**         | Vercel (с конфигурацией vercel.json), поддержка серверных функций                              |
-| **Прочее**         | dotenv, fenviee (валидация env), uuid, ngx-cookie-service, Prism.js (подсветка кода)          |
+| Категория       | Технологии                                                                            |
+| --------------- | ------------------------------------------------------------------------------------- |
+| **Фронтенд**    | Angular 21, TypeScript, Tailwind CSS, ngx-markdown, RxJS, Angular SSR                 |
+| **Бэкенд**      | Node.js, Express, Passport.js (Google OAuth), JWT, express-session, express-validator |
+| **База данных** | PostgreSQL, Prisma ORM (с адаптером @prisma/adapter-pg)                               |
+| **Инструменты** | Angular CLI, pnpm, Vite (через @angular/build), ESLint, TypeScript                    |
+| **Деплой**      | Vercel (с конфигурацией vercel.json), поддержка серверных функций                     |
+| **Прочее**      | dotenv, fenviee (валидация env), uuid, ngx-cookie-service, Prism.js (подсветка кода)  |
 
 ---
 
@@ -82,19 +82,19 @@ pnpm build
 
 Создайте файл `.env` в корне проекта со следующими переменными:
 
-| Переменная               | Описание                                                                 |
-|--------------------------|--------------------------------------------------------------------------|
+| Переменная               | Описание                                                                                  |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
 | `DATABASE_URL`           | URL подключения к PostgreSQL (например, `postgresql://user:pass@localhost:5432/feeldown`) |
-| `GOOGLE_CLIENT_ID`       | Client ID из Google Cloud Console                                        |
-| `GOOGLE_CLIENT_SECRET`   | Client Secret из Google Cloud Console                                    |
-| `GOOGLE_CALLBACK_URL`    | URL колбэка Google OAuth (например, `http://localhost:4200/api/auth/google/callback`) |
-| `SESSION_SECRET`         | Секрет для сессий express-session (строка)                               |
-| `HASH_KEY`               | Ключ для подписи JWT (строка)                                            |
-| `CALLBACK_URL`           | URL для редиректа после успешного входа (например, `http://localhost:4200`) |
-| `PORT`                   | Порт сервера (по умолчанию 4200)                                         |
-| `TOKEN_EXPIRATION`       | Срок действия JWT (формат: `1d`, `24h`, `60m` и т.д., по умолчанию `7d`) |
-| `ALLOWED_HOSTS`          | Разрешённые хосты (через запятую, например `localhost,feeldown.vercel.app`) |
-| `PRISMA_CONNECTION_TYPE` | Тип подключения Prisma (`adapter` или `accelerate`, по умолчанию `adapter`) |
+| `GOOGLE_CLIENT_ID`       | Client ID из Google Cloud Console                                                         |
+| `GOOGLE_CLIENT_SECRET`   | Client Secret из Google Cloud Console                                                     |
+| `GOOGLE_CALLBACK_URL`    | URL колбэка Google OAuth (например, `http://localhost:4200/api/auth/google/callback`)     |
+| `SESSION_SECRET`         | Секрет для сессий express-session (строка)                                                |
+| `HASH_KEY`               | Ключ для подписи JWT (строка)                                                             |
+| `CALLBACK_URL`           | URL для редиректа после успешного входа (например, `http://localhost:4200`)               |
+| `PORT`                   | Порт сервера (по умолчанию 4200)                                                          |
+| `TOKEN_EXPIRATION`       | Срок действия JWT (формат: `1d`, `24h`, `60m` и т.д., по умолчанию `7d`)                  |
+| `ALLOWED_HOSTS`          | Разрешённые хосты (через запятую, например `localhost,feeldown.vercel.app`)               |
+| `PRISMA_CONNECTION_TYPE` | Тип подключения Prisma (`adapter` или `accelerate`, по умолчанию `adapter`)               |
 
 Пример `.env`:
 
@@ -232,10 +232,10 @@ vercel --prod
 
 ### 👤 Автор
 
-**FOCKUSTY**  
+**FOCKUSTY**
 
-- GitHub: [FOCKUSTY](https://github.com/FOCKUSTY)  
-- Telegram: [@fockusty](https://t.me/fockusty)  
+- GitHub: [FOCKUSTY](https://github.com/FOCKUSTY)
+- Telegram: [@fockusty](https://t.me/fockusty)
 
 ---
 

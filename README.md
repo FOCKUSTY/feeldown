@@ -25,14 +25,14 @@
 
 ## Технологический стек
 
-| Категория          | Технологии                                                                                     |
-|--------------------|------------------------------------------------------------------------------------------------|
-| **Фронтенд**       | Angular 21, TypeScript, Tailwind CSS, ngx-markdown, RxJS, Angular SSR                          |
-| **Бэкенд**         | Node.js, Express, Passport.js (Google OAuth), JWT, express-session, express-validator          |
-| **База данных**    | PostgreSQL, Prisma ORM (адаптер @prisma/adapter-pg)                                            |
-| **Инструменты**    | Angular CLI, pnpm, Vite, ESLint, TypeScript                                                    |
-| **Деплой**         | Vercel (с конфигурацией vercel.json)                                                           |
-| **Прочее**         | dotenv, fenviee (валидация env), uuid, ngx-cookie-service, Prism.js                           |
+| Категория       | Технологии                                                                            |
+| --------------- | ------------------------------------------------------------------------------------- |
+| **Фронтенд**    | Angular 21, TypeScript, Tailwind CSS, ngx-markdown, RxJS, Angular SSR                 |
+| **Бэкенд**      | Node.js, Express, Passport.js (Google OAuth), JWT, express-session, express-validator |
+| **База данных** | PostgreSQL, Prisma ORM (адаптер @prisma/adapter-pg)                                   |
+| **Инструменты** | Angular CLI, pnpm, Vite, ESLint, TypeScript                                           |
+| **Деплой**      | Vercel (с конфигурацией vercel.json)                                                  |
+| **Прочее**      | dotenv, fenviee (валидация env), uuid, ngx-cookie-service, Prism.js                   |
 
 ---
 
@@ -219,9 +219,9 @@ pnpm test
 
 ## Автор
 
-**FOCKUSTY**  
+**FOCKUSTY**
 
-- GitHub: [github.com/FOCKUSTY](https://github.com/FOCKUSTY)  
+- GitHub: [github.com/FOCKUSTY](https://github.com/FOCKUSTY)
 - Telegram: [@fockusty](https://t.me/fockusty)
 
 ---

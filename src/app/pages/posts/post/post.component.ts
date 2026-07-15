@@ -55,6 +55,13 @@ export class Post implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
+  public goToEdit(): void {
+    const post = this._post();
+    if (post) {
+      this._router.navigate(['/posts', post.id, 'edit']);
+    }
+  }
+
   public goBack(): void {
     this._router.navigate(['/']);
   }

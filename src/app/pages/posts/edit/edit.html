@@ -1,0 +1,62 @@
+<div>
+  <h2 class="text-2xl font-bold text-(--fd-text-primary)">
+    Редактировать пост
+  </h2>
+  <p class="text-(--fd-text-muted) mt-1">Внесите изменения</p>
+
+  <hr class="my-6 border-(--fd-border)" />
+
+  @let error = _error(); @if (error) {
+  <div
+    class="mb-4 p-3 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
+  } @let loaded = _loaded(); @if (!loaded) {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  } @else {
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-16 grid-rows-1 md:max-h-180"
+  >
+    <form (ngSubmit)="onSubmit()" class="space-y-5">
+      <div>
+        <label
+          for="content"
+          class="block text-sm font-medium text-(--fd-text-secondary)"
+          >Содержимое</label
+        >
+        <textarea
+          id="content"
+          [(ngModel)]="content"
+          name="content"
+          rows="8"
+          required
+          class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition resize-y max-h-150"
+          placeholder="Напишите что-нибудь..."
+        ></textarea>
+      </div>
+
+      <div class="flex items-center gap-4">
+        @let submitting = _submitting();
+        <fd-button type="submit" [disabled]="submitting">
+          {{ submitting ? 'Сохранение...' : 'Сохранить' }}
+        </fd-button>
+        <button
+          type="button"
+          (click)="cancel()"
+          class="cursor-pointer text-(--fd-text-muted) hover:text-(--fd-text-secondary) transition"
+        >
+          Отмена
+        </button>
+      </div>
+    </form>
+
+    <div class="text-(--fd-text-primary) overflow-y-auto h-full">
+      <span class="block text-sm font-medium text-(--fd-text-secondary)"
+        >Markdown</span
+      >
+      <markdown class="markdown-body" [data]="content" />
+    </div>
+  </div>
+  }
+</div>

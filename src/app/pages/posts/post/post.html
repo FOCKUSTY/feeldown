@@ -20,6 +20,11 @@
       >
         {{ post.user.name }}
       </a>
+      @if (post.isAuthor) {
+      <fd-button (clicked)="goToEdit()" class="py-1! px-3! text-sm"
+        >✏️ Редактировать</fd-button
+      >
+      }
     </section>
 
     <article class="prose prose-invert max-w-none overflow-y-auto h-full">

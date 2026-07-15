@@ -15,7 +15,20 @@ export class PostService extends HttpBaseService {
   }
 
   public get(id: string): Observable<ClientPost> {
-    const data = this.http.get<Data<ClientPost>>(`/api/posts/${id}`);
+    const data = this.http.get<Data<ClientPost>>(`/api/posts/${id}`, {
+      headers: this.getHeaders(),
+    });
+    return this.from(data);
+  }
+
+  public update(id: string, content: string): Observable<Post> {
+    const data = this.http.put<Data<Post>>(
+      `/api/posts/${id}`,
+      { content },
+      {
+        headers: this.getHeaders(),
+      },
+    );
     return this.from(data);
   }
 
