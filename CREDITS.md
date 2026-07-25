@@ -55,10 +55,11 @@
 
 ## Markdown и контент
 
-| Библиотека                                             | Версия | Лицензия | Описание                     |
-| ------------------------------------------------------ | ------ | -------- | ---------------------------- |
-| [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 22.0.0 | MIT      | Рендеринг Markdown в Angular |
-| (транзитивно: marked, markdown-it и др.)               | –      | MIT      | Парсеры Markdown             |
+| Библиотека                                             | Версия  | Лицензия | Описание                     |
+| ------------------------------------------------------ | ------- | -------- | ---------------------------- |
+| [ngx-markdown](https://github.com/jfcere/ngx-markdown) | 22.0.0  | MIT      | Рендеринг Markdown в Angular |
+| [mermaid](https://github.com/mermaid-js/mermaid)       | 11.16.0 | MIT      | Рендеринг Mermaid в Angular  |
+| (транзитивно: marked, markdown-it и др.)               | –       | MIT      | Парсеры Markdown             |
 
 ---
 
