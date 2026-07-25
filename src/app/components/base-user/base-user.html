@@ -41,12 +41,12 @@
       class="p-4 border border-(--fd-border) rounded-(--fd-radius) bg-(--fd-bg-card) hover:shadow-(--fd-shadow) transition"
     >
       <a
-        [routerLink]="['/posts', post.id]"
+        [routerLink]="['/posts', `$${post.postname}`]"
         class="block hover:underline text-(--fd-primary)"
       >
+        <div class="text-(--fd-text-primary) font-medium">{{ post.title }}</div>
         <div class="text-(--fd-text-primary) line-clamp-3 text-sm md:text-base">
-          {{ post.content.length > 200 ? (post.content | slice:0:200) + '…' :
-          post.content }}
+          {{ cleanMarkdown(post.content) }}
         </div>
       </a>
     </div>

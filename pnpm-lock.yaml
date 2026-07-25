@@ -61,6 +61,9 @@ importers:
       jsonwebtoken:
         specifier: ^9.0.3
         version: 9.0.3
+      lz-string:
+        specifier: ^1.5.0
+        version: 1.5.0
       mermaid:
         specifier: ^11.16.0
         version: 11.16.0
@@ -4953,6 +4956,13 @@ packages:
       }
     engines: { bun: ">=1.0.0", deno: ">=1.30.0", node: ">=8.0.0" }
 
+  lz-string@1.5.0:
+    resolution:
+      {
+        integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==,
+      }
+    hasBin: true
+
   magic-string@0.30.21:
     resolution:
       {
@@ -9649,6 +9659,8 @@ snapshots:
       yallist: 3.1.1
 
   lru.min@1.1.4: {}
+
+  lz-string@1.5.0: {}
 
   magic-string@0.30.21:
     dependencies:

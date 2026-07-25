@@ -11,7 +11,7 @@
     <fd-button (clicked)="goBack()">Назад</fd-button>
   </div>
   } @else { @let post = _post(); @if (post) {
-  <div class="flex flex-col md:max-h-200">
+  <div class="flex flex-col md:max-h-200 gap-4">
     <section class="text-sm md:text-base text-(--fd-text-primary)">
       Author:
       <a
@@ -26,6 +26,13 @@
       >
       }
     </section>
+
+    <div>
+      <h1 class="text-3xl font-bold text-(--fd-text-primary) mb-4">
+        {{ post.title }}
+      </h1>
+      <p class="text-(--fd-text-muted)">${{ post.postname }}</p>
+    </div>
 
     <article class="prose prose-invert max-w-none overflow-y-auto h-full">
       <markdown class="markdown-body" [data]="post.content" mermaid />

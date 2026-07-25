@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MarkdownComponent } from 'ngx-markdown';
 
-import { PostService } from '@/app/services';
+import { PostCreate, PostService } from '@/app/services';
 import { FdButton } from '@/app/components';
 
 @Component({
@@ -14,31 +14,35 @@ import { FdButton } from '@/app/components';
   templateUrl: './edit.html',
 })
 export class EditPost implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private postService = inject(PostService);
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
+  private readonly _service = inject(PostService);
 
+  protected title = '';
+  protected postname = '';
   protected content = '';
+
   protected _submitting = signal(false);
   protected _error = signal<string | null>(null);
   protected _loaded = signal(false);
-  protected _postId: string | null = null;
+  protected _slug: string | null = null;
 
   public ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (!id) {
-      this.router.navigate(['/']);
+    const slug = this._route.snapshot.paramMap.get('slug');
+    if (!slug) {
+      this._router.navigate(['/']);
       return;
     }
-    this._postId = id;
+    this._slug = slug;
 
-    this.postService.get(id).subscribe({
+    this._service.get(slug).subscribe({
       next: (post: ClientPost) => {
+        this.title = post.title;
+        this.postname = post.postname;
         this.content = post.content;
         this._loaded.set(true);
-        // Проверка авторства: если isAuthor === false, перенаправляем
         if (post.isAuthor === false) {
-          this.router.navigate(['/posts', id]);
+          this._router.navigate(['/posts', slug]);
         }
       },
       error: () => {
@@ -49,19 +53,25 @@ export class EditPost implements OnInit {
   }
 
   public onSubmit(): void {
-    if (!this.content.trim()) {
+    if (!this.content.trim() || !this.title.trim() || !this.postname.trim()) {
       this._error.set('Содержимое не может быть пустым.');
       return;
     }
 
-    if (!this._postId) return;
+    if (!this._slug) return;
 
     this._submitting.set(true);
     this._error.set(null);
 
-    this.postService.update(this._postId, this.content.trim()).subscribe({
+    const post: PostCreate = {
+      title: this.title.trim(),
+      postname: this.postname.trim(),
+      content: this.content.trim(),
+    };
+
+    this._service.update(this._slug, post).subscribe({
       next: (updated) => {
-        this.router.navigate(['/posts', updated.id]);
+        this._router.navigate(['/posts', updated.postname]);
       },
       error: (err) => {
         this._error.set(err.message || 'Ошибка при обновлении поста.');
@@ -71,10 +81,10 @@ export class EditPost implements OnInit {
   }
 
   public cancel(): void {
-    if (this._postId) {
-      this.router.navigate(['/posts', this._postId]);
+    if (this._slug) {
+      this._router.navigate(['/posts', this._slug]);
     } else {
-      this.router.navigate(['/']);
+      this._router.navigate(['/']);
     }
   }
 }

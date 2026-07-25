@@ -43,11 +43,13 @@ export class ProfileEdit implements OnInit {
           this.router.navigate(['/']);
           return;
         }
+
         this.form.patchValue({
           name: user.name,
           description: user.description || '',
           username: user.username,
         });
+
         this._loading.set(false);
       },
       error: () => {
@@ -70,7 +72,7 @@ export class ProfileEdit implements OnInit {
 
     this.userService.updateProfile({ name, description, username }).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/profile']);
       },
       error: (err) => {
         this._error.set(err.error?.error || 'Ошибка при сохранении');

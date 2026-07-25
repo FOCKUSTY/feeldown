@@ -7,6 +7,7 @@ import { MarkdownComponent } from 'ngx-markdown';
 import { PostService, AuthService } from '@/app/services';
 import { FdButton } from '@/app/components';
 import { TEST_MARKDOWN } from '@/app/constants';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-new',
@@ -18,7 +19,10 @@ export class New {
   private readonly postService = inject(PostService);
   protected readonly router = inject(Router);
 
+  protected title = '';
+  protected postname = uuid();
   protected content = TEST_MARKDOWN;
+
   protected _submitting = signal<boolean>(false);
   protected _error = signal<string | null>(null);
 
@@ -32,8 +36,8 @@ export class New {
   }
 
   public onSubmit(): void {
-    if (!this.content.trim()) {
-      this._error.set('Содержимое не может быть пустым.');
+    if (!this.title.trim() || !this.content.trim()) {
+      this._error.set('Заголовок и содержимое обязательны.');
       return;
     }
 
@@ -42,6 +46,8 @@ export class New {
 
     this.postService
       .create({
+        title: this.title.trim(),
+        postname: this.postname.trim(),
         content: this.content.trim(),
       })
       .subscribe({
@@ -50,7 +56,7 @@ export class New {
         },
         error: (err) => {
           this._error.set(
-            err.message || 'Ошибка при создании поста. Попробуйте позже.',
+            err.error?.error || 'Ошибка при создании поста. Попробуйте позже.',
           );
           this._submitting.set(false);
         },

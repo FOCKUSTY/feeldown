@@ -21,6 +21,42 @@
     <form (ngSubmit)="onSubmit()" class="space-y-5">
       <div>
         <label
+          for="title"
+          class="block text-sm font-medium text-(--fd-text-secondary)"
+          >Заголовок</label
+        >
+        <input
+          id="title"
+          type="text"
+          [(ngModel)]="title"
+          name="title"
+          required
+          class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition"
+          placeholder="Введите заголовок"
+        />
+      </div>
+
+      <div>
+        <label
+          for="postname"
+          class="block text-sm font-medium text-(--fd-text-secondary)"
+          >Уникальный адрес (опционально)</label
+        >
+        <input
+          id="postname"
+          type="text"
+          [(ngModel)]="postname"
+          name="postname"
+          class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition"
+          placeholder="например: moy-post"
+        />
+        <p class="text-xs text-(--fd-text-muted) mt-1">
+          Если не указать, будет сгенерирован автоматически
+        </p>
+      </div>
+
+      <div>
+        <label
           for="content"
           class="block text-sm font-medium text-(--fd-text-secondary)"
           >Содержимое</label

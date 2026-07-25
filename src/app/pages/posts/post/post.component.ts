@@ -44,14 +44,14 @@ export class Post implements OnInit, OnDestroy {
     this._subscription = this._route.params
       .pipe(
         switchMap((params) => {
-          const id = params['id'];
-          if (!id) {
+          const slug = params['slug'];
+          if (!slug) {
             this._router.navigate(['/']);
             return [];
           }
 
           this._error.set(null);
-          return this._post_service.get(id);
+          return this._post_service.get(slug);
         }),
       )
       .subscribe({
@@ -75,7 +75,7 @@ export class Post implements OnInit, OnDestroy {
   public goToEdit(): void {
     const post = this._post();
     if (post) {
-      this._router.navigate(['/posts', post.id, 'edit']);
+      this._router.navigate(['/posts', `$${post.postname}`, 'edit']);
     }
   }
 
@@ -89,7 +89,7 @@ export class Post implements OnInit, OnDestroy {
 
     const description =
       post.content.slice(0, 160) + (post.content.length > 160 ? '…' : '');
-    const url = `https://feeldown.vercel.app/posts/${post.id}`;
+    const url = `https://feeldown.vercel.app/posts/$${post.postname}`;
     const image = 'https://feeldown.vercel.app/og-image.png';
 
     this._meta.removeTag('name="description"');
