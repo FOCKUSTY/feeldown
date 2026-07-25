@@ -31,11 +31,14 @@
   <div class="text-center">
     <p class="text-lg text-(--fd-text-primary)">Добро пожаловать в Feeldown!</p>
     <p class="text-(--fd-text-secondary) mt-2">
-      Чтобы начать писать, войдите через Google.
+      Чтобы начать писать, нужно авторизоваться.
     </p>
-    <div class="mt-6">
+    <div class="flex gap-4 justify-center mt-6">
       <fd-button>
-        <a [href]="_login_url"> 🔑 Войти через Google </a>
+        <a [href]="_login_google_url">Войти через Google</a>
+      </fd-button>
+      <fd-button>
+        <a [href]="_login_github_url">Войти через Github </a>
       </fd-button>
     </div>
   </div>

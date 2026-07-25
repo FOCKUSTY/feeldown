@@ -1,7 +1,6 @@
+import type { ExpressUser } from '../../types';
 import { Router } from 'express';
 import { NotificationService } from '../../services/notification.service';
-import { ExpressUser } from '../../types';
-import { query } from 'express-validator';
 
 export const router: Router = Router();
 
@@ -30,7 +29,7 @@ router.get('/unread-count', async (request, response) => {
   }
 
   const count = await NotificationService.getUnreadCount(user.user.id);
-  response.json({ data: { count } });
+  response.json({ data: count });
 });
 
 router.put('/:id/read', async (request, response) => {
@@ -41,7 +40,7 @@ router.put('/:id/read', async (request, response) => {
   }
 
   await NotificationService.markAsRead(request.params.id, user.user.id);
-  response.json({ data: { success: true } });
+  response.json({ data: true });
 });
 
 router.put('/read-all', async (request, response) => {
@@ -52,5 +51,5 @@ router.put('/read-all', async (request, response) => {
   }
 
   await NotificationService.markAllAsRead(user.user.id);
-  response.json({ data: { success: true } });
+  response.json({ data: true });
 });

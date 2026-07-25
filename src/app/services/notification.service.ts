@@ -3,30 +3,20 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
-
-export interface Notification {
-  id: string;
-  type: string;
-  referenceType: string;
-  referenceId: string;
-  readed: boolean;
-  createdAt: string;
-  actor?: {
-    id: string;
-    name: string;
-    username: string;
-  };
-}
+import { HttpBaseService } from './http-base.service';
+import { Data, ClientNotification } from '@/server/types';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService {
+export class NotificationService extends HttpBaseService {
   private readonly http: HttpClient;
   private readonly router: Router;
   private readonly unreadCountSubject: BehaviorSubject<number>;
 
   public constructor(http: HttpClient, router: Router) {
+    super();
+
     this.http = http;
     this.router = router;
     this.unreadCountSubject = new BehaviorSubject<number>(0);
@@ -38,16 +28,18 @@ export class NotificationService {
       });
   }
 
-  public get unreadCount$(): Observable<number> {
+  public get unreadCount(): Observable<number> {
     return this.unreadCountSubject.asObservable();
   }
 
   public refreshUnreadCount(): void {
     this.http
-      .get<{ data: { count: number } }>('/api/notifications/unread-count')
+      .get<{ data: number }>('/api/notifications/unread-count', {
+        headers: this.getHeaders(),
+      })
       .subscribe({
         next: (response) => {
-          this.unreadCountSubject.next(response.data.count);
+          this.unreadCountSubject.next(response.data);
         },
         error: () => {
           this.unreadCountSubject.next(0);
@@ -59,28 +51,46 @@ export class NotificationService {
     page: number,
     limit: number,
   ): Observable<{
-    data: Notification[];
+    data: ClientNotification[];
     pagination: {
       page: number;
       limit: number;
       total: number;
     };
   }> {
-    return this.http.get<{
-      data: Notification[];
-      pagination: {
-        page: number;
-        limit: number;
-        total: number;
-      };
-    }>(`/api/notifications?page=${page}&limit=${limit}`);
+    const data = this.http.get<
+      Data<{
+        data: ClientNotification[];
+        pagination: {
+          page: number;
+          limit: number;
+          total: number;
+        };
+      }>
+    >(`/api/notifications?page=${page}&limit=${limit}`, {
+      headers: this.getHeaders(),
+    });
+
+    return this.from(data);
   }
 
   public markAsRead(id: string): Observable<unknown> {
-    return this.http.put(`/api/notifications/${id}/read`, {});
+    return this.http.put(
+      `/api/notifications/${id}/read`,
+      {},
+      {
+        headers: this.getHeaders(),
+      },
+    );
   }
 
   public markAllAsRead(): Observable<unknown> {
-    return this.http.put('/api/notifications/read-all', {});
+    return this.http.put(
+      '/api/notifications/read-all',
+      {},
+      {
+        headers: this.getHeaders(),
+      },
+    );
   }
 }

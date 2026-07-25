@@ -1,3 +1,4 @@
+import type { ClientNotification } from '@/server/types';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,10 +14,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
-import {
-  Notification,
-  NotificationService,
-} from '@/app/services/notification.service';
+import { NotificationService } from '@/app/services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'notification-dropdown',
@@ -26,13 +25,15 @@ import {
   templateUrl: './notification-dropdown.html',
 })
 export class NotificationDropdown implements OnInit, OnDestroy {
+  private readonly _router = inject(Router);
+
   private readonly _service = inject(NotificationService);
   private readonly _ref = inject(ElementRef);
   private readonly _subscription = new Subscription();
 
   protected readonly _opened = signal(false);
   protected readonly _loading = signal(false);
-  protected readonly _notifications = signal<Notification[]>([]);
+  protected readonly _notifications = signal<ClientNotification[]>([]);
   protected readonly _unread_count = signal(0);
 
   protected readonly _page = signal(1);
@@ -52,7 +53,7 @@ export class NotificationDropdown implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this._subscription.add(
-      this._service.unreadCount$.subscribe((count) => {
+      this._service.unreadCount.subscribe((count) => {
         this._unread_count.set(count);
       }),
     );
@@ -123,7 +124,7 @@ export class NotificationDropdown implements OnInit, OnDestroy {
     });
   }
 
-  protected getMessage(notification: Notification): string {
+  protected getMessage(notification: ClientNotification): string {
     const actor = notification.actor?.name || 'Кто-то';
     const messageMap: Record<string, string> = {
       REACT_POST: `${actor} поставил(а) реакцию на ваш пост`,
@@ -136,9 +137,13 @@ export class NotificationDropdown implements OnInit, OnDestroy {
     return messageMap[notification.type] || 'Новое уведомление';
   }
 
-  protected onNotificationClick(notification: Notification): void {
+  protected onNotificationClick(notification: ClientNotification): void {
     if (!notification.readed) {
       this.markRead(notification.id);
+    }
+
+    if (notification.type === 'FRIEND_REQUEST') {
+      this._router.navigate(['/users', `@${notification.actor.username}`]);
     }
 
     this._opened.set(false);

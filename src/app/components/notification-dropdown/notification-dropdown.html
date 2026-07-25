@@ -15,7 +15,7 @@
 
   @let opened = _opened(); @let notifications = _notifications(); @if (opened) {
   <div
-    class="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 flex flex-col"
+    class="absolute right-0 mt-2 w-80 sm:w-96 max-h-[70vh] dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-xl z-50 flex flex-col"
   >
     <div
       class="flex items-center justify-between p-3 border-b border-gray-200 dark:border-gray-700"
@@ -44,7 +44,6 @@
       } @else { @for (notification of notifications; track notification.id) {
       <div
         class="p-3 border-b border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer"
-        [class.bg-blue-50]="!notification.readed"
         (click)="onNotificationClick(notification)"
       >
         <div class="flex justify-between items-start">

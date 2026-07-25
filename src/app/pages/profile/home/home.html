@@ -4,6 +4,9 @@
   [isMe]="true"
   [loading]="_loading()"
   [error]="_error()"
+  [friendshipStatus]="'self'"
+  [friendshipId]="null"
+  [currentUserId]="_currentUserId()"
   (goBack)="goBack()"
   (editProfile)="navigateToEdit()"
 />

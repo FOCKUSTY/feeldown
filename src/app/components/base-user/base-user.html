@@ -12,19 +12,48 @@
   </div>
   } @else { @if (user) {
   <div class="mb-8 flex items-start justify-between">
-    <div>
+    <div class="flex-1">
       <h1 class="text-2xl md:text-3xl font-bold text-(--fd-text-primary)">
         {{ user.name }}
       </h1>
       <p class="text-(--fd-text-muted)">@{{ user.username }}</p>
-      @if (user.description) {
-      <article class="prose prose-invert max-w-none overflow-y-auto h-full">
+
+      @if (!isMe && currentUserId) {
+      <div class="mt-6 flex flex-wrap gap-3">
+        @if (friendshipStatus === 'none') {
+        <fd-button (clicked)="sendFriendRequest.emit()">
+          ➕ Добавить в друзья
+        </fd-button>
+        } @if (friendshipStatus === 'pending_sent') {
+        <span
+          class="inline-flex items-center px-4 py-2 rounded-(--fd-radius) bg-(--fd-bg-input) text-(--fd-text-secondary) text-sm"
+        >
+          ⏳ Запрос отправлен
+        </span>
+        } @if (friendshipStatus === 'pending_received') {
+        <fd-button (clicked)="acceptFriendRequest.emit()">
+          ✅ Принять
+        </fd-button>
+        <fd-button (clicked)="rejectFriendRequest.emit()">
+          ❌ Отклонить
+        </fd-button>
+        } @if (friendshipStatus === 'friends') {
+        <fd-button (clicked)="removeFriend.emit()">
+          🚫 Удалить из друзей
+        </fd-button>
+        }
+      </div>
+      } @if (user.description) {
+      <article
+        class="prose prose-invert max-w-none overflow-y-auto h-full mt-4"
+      >
         <markdown class="markdown-body" [data]="user.description" mermaid />
       </article>
       }
     </div>
+
     @if (isMe) {
-    <fd-button (clicked)="editProfile.emit()">Изменить профиль</fd-button>
+    <fd-button (clicked)="editProfile.emit()"> Изменить профиль </fd-button>
     }
   </div>
 
@@ -41,7 +70,7 @@
       class="p-4 border border-(--fd-border) rounded-(--fd-radius) bg-(--fd-bg-card) hover:shadow-(--fd-shadow) transition"
     >
       <a
-        [routerLink]="['/posts', `$${post.postname}`]"
+        [routerLink]="['/posts', '$' + post.postname]"
         class="block hover:underline text-(--fd-primary)"
       >
         <div class="text-(--fd-text-primary) font-medium">{{ post.title }}</div>

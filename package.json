@@ -48,6 +48,7 @@
     "ngx-cookie-service": "^22.0.0",
     "ngx-markdown": "^22.0.0",
     "passport": "^0.7.0",
+    "passport-github": "^1.1.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-oauth2": "^1.8.0",
     "passport-telegram": "^1.0.0",

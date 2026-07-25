@@ -4,6 +4,13 @@
   [isMe]="_is_me()"
   [loading]="_loading()"
   [error]="_error()"
+  [friendshipStatus]="_friendship_status()"
+  [friendshipId]="_friendship_id()"
+  [currentUserId]="_current_user_id()"
+  (sendFriendRequest)="sendFriendRequest()"
+  (acceptFriendRequest)="acceptFriendRequest()"
+  (rejectFriendRequest)="rejectFriendRequest()"
+  (removeFriend)="removeFriend()"
   (goBack)="goBack()"
   (editProfile)="navigateToEdit()"
 />

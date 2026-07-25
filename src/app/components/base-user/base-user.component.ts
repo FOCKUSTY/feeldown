@@ -1,7 +1,9 @@
+import type { FriendshipStatus } from '@/app/services';
+import type { User, Post } from '@/server/types';
+
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { User, Post } from '@/server/types';
 import { FdButton } from '@/app/components';
 import { MarkdownComponent } from 'ngx-markdown';
 
@@ -23,10 +25,30 @@ export class BaseUserComponent {
   @Input()
   public error: string | null = null;
 
+  @Input()
+  public friendshipStatus: FriendshipStatus = 'none';
+  @Input()
+  public friendshipId: string | null = null;
+  @Input()
+  public currentUserId: string | null = null;
+
   @Output()
   public goBack = new EventEmitter<void>();
+
   @Output()
   public editProfile = new EventEmitter<void>();
+
+  @Output()
+  public sendFriendRequest = new EventEmitter<void>();
+
+  @Output()
+  public acceptFriendRequest = new EventEmitter<void>();
+
+  @Output()
+  public rejectFriendRequest = new EventEmitter<void>();
+
+  @Output()
+  public removeFriend = new EventEmitter<void>();
 
   protected cleanMarkdown(
     content: string | null | undefined,
@@ -57,5 +79,25 @@ export class BaseUserComponent {
     }
 
     return plain;
+  }
+
+  protected get isFriend(): boolean {
+    return this.friendshipStatus === 'friends';
+  }
+
+  protected get isPendingSent(): boolean {
+    return this.friendshipStatus === 'pending_sent';
+  }
+
+  protected get isPendingReceived(): boolean {
+    return this.friendshipStatus === 'pending_received';
+  }
+
+  protected get canSendRequest(): boolean {
+    return (
+      this.friendshipStatus === 'none' &&
+      !this.isMe &&
+      this.currentUserId !== this.user?.id
+    );
   }
 }
