@@ -1,0 +1,92 @@
+<div class="max-w-2xl mx-auto mt-6 md:mt-12 px-4">
+  <h2 class="text-2xl font-bold text-(--fd-text-primary)">
+    Редактировать профиль
+  </h2>
+  <p class="text-(--fd-text-muted) mt-1">Обновите свои данные</p>
+
+  <hr class="my-6 border-(--fd-border)" />
+
+  @if (_loading()) {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  } @else { @let error = _error(); @if (error) {
+  <div
+    class="mb-4 p-3 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-5">
+    <div>
+      <label
+        for="name"
+        class="block text-sm font-medium text-(--fd-text-secondary)"
+        >Имя</label
+      >
+      <input
+        id="name"
+        type="text"
+        formControlName="name"
+        class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition"
+      />
+      @if (form.get('name')?.invalid && form.get('name')?.touched) {
+      <p class="text-sm text-red-500 mt-1">
+        Имя обязательно и должно быть не длиннее 100 символов
+      </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="username"
+        class="block text-sm font-medium text-(--fd-text-secondary)"
+        >Имя пользователя</label
+      >
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition"
+      />
+      @if (form.get('username')?.invalid && form.get('username')?.touched) {
+      <p class="text-sm text-red-500 mt-1">
+        Только латиница, цифры и подчёркивание, от 3 до 30 символов
+      </p>
+      }
+    </div>
+
+    <div>
+      <label
+        for="description"
+        class="block text-sm font-medium text-(--fd-text-secondary)"
+        >О себе</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="4"
+        class="mt-1 w-full px-4 py-2 rounded-(--fd-radius) border border-(--fd-border) bg-(--fd-bg-input) text-(--fd-text-primary) focus:outline-none focus:ring-2 focus:ring-(--fd-primary) focus:border-transparent transition resize-y"
+      ></textarea>
+      @if (form.get('description')?.invalid && form.get('description')?.touched)
+      {
+      <p class="text-sm text-red-500 mt-1">
+        Описание не должно превышать 500 символов
+      </p>
+      }
+    </div>
+
+    <div class="flex items-center gap-4">
+      <fd-button type="submit" [disabled]="_submitting()">
+        {{ _submitting() ? 'Сохранение...' : 'Сохранить' }}
+      </fd-button>
+      <button
+        type="button"
+        (click)="cancel()"
+        class="cursor-pointer text-(--fd-text-muted) hover:text-(--fd-text-secondary) transition"
+      >
+        Отмена
+      </button>
+    </div>
+  </form>
+  }
+</div>

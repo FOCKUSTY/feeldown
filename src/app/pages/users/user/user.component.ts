@@ -1,28 +1,29 @@
+import type { Post, User } from '@/server/types';
+
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, forkJoin, of } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { CommonModule } from '@angular/common';
 
+import { BaseUserComponent } from '@/app/components';
 import { UserService } from '@/app/services';
-import { User, Post } from '@/server/types';
-import { FdButton } from '@/app/components';
 
 @Component({
   selector: 'app-user-user',
   standalone: true,
-  imports: [CommonModule, FdButton, RouterLink],
+  imports: [BaseUserComponent],
   templateUrl: './user.html',
 })
 export class Home implements OnInit, OnDestroy {
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
-  private readonly userService = inject(UserService);
+  private readonly _service = inject(UserService);
 
-  protected readonly _user = signal<User | null>(null);
-  protected readonly _posts = signal<Post[]>([]);
-  protected readonly _loaded = signal<boolean>(false);
-  protected readonly _error = signal<string | null>(null);
+  protected _user = signal<User | null>(null);
+  protected _posts = signal<Post[]>([]);
+  protected _is_me = signal(false);
+  protected _loading = signal(true);
+  protected _error = signal<string | null>(null);
 
   private _subscription = new Subscription();
 
@@ -36,44 +37,50 @@ export class Home implements OnInit, OnDestroy {
             return of(null);
           }
           this._error.set(null);
+          this._loading.set(true);
 
           return forkJoin({
-            user: this.userService
-              .getUser(slug)
-              .pipe(catchError(() => of(null))),
-            posts: this.userService
+            user: this._service.getUser(slug).pipe(catchError(() => of(null))),
+            posts: this._service
               .getUserPosts(slug)
               .pipe(catchError(() => of([]))),
+            me: this._service.getMe().pipe(catchError(() => of(null))),
           });
         }),
       )
       .subscribe({
         next: (result) => {
           if (!result) {
-            this._loaded.set(true);
+            this._loading.set(false);
             return;
           }
 
-          if (!result.user) {
+          const { user, posts, me } = result;
+          if (!user) {
             this._error.set('Пользователь не найден');
           } else {
-            this._user.set(result.user);
-            this._posts.set(result.posts);
+            this._user.set(user);
+            this._posts.set(posts);
+            this._is_me.set(!!me && me.id === user.id);
           }
-          this._loaded.set(true);
+          this._loading.set(false);
         },
         error: (err) => {
           this._error.set(err.message || 'Ошибка загрузки данных');
-          this._loaded.set(true);
+          this._loading.set(false);
         },
       });
   }
 
-  public ngOnDestroy(): void {
+  public ngOnDestroy() {
     this._subscription.unsubscribe();
   }
 
-  protected goBack(): void {
+  protected goBack() {
     this._router.navigate(['/']);
+  }
+
+  protected navigateToEdit() {
+    this._router.navigate(['/profile/edit']);
   }
 }

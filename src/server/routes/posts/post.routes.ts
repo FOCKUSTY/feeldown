@@ -8,8 +8,8 @@ export const router: Router = Router();
 
 router.post(
   '/',
-  body("title").isString().trim(),
-  body("postname").isString().trim(),
+  body('title').isString().trim(),
+  body('postname').isString().trim(),
   body('content').isString().trim(),
   async (request, response) => {
     const user = request.user as ExpressUser | undefined;

@@ -84,7 +84,7 @@ passport.use(
         prisma.user.create({
           data: {
             id: userId,
-            description: "",
+            description: '',
             username: uuid(),
             name: profile.username || profile.displayName,
           },

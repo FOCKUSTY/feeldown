@@ -2,6 +2,7 @@ import { prisma } from '@/server/prisma';
 import { ExpressUser } from '@/server/types';
 import { HttpStatusCode } from '@angular/common/http';
 import { response, Router } from 'express';
+import { body, validationResult } from 'express-validator';
 
 export const router: Router = Router();
 
@@ -74,3 +75,51 @@ router.get('/:slug/posts', async (request, response) => {
 
   response.json({ data: user.posts });
 });
+
+router.put(
+  '/@me',
+  body('name').optional().isString().trim().isLength({ min: 1, max: 100 }),
+  body('description').optional().isString().trim().isLength({ max: 500 }),
+  body('username')
+    .optional()
+    .isString()
+    .trim()
+    .isLength({ min: 3, max: 30 })
+    .matches(/^[a-zA-Z0-9_]+$/),
+  async (request, response) => {
+    const user = request.user as ExpressUser | undefined;
+    if (!user) {
+      response.sendStatus(HttpStatusCode.Unauthorized);
+      return;
+    }
+
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+      response.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    const { name, description, username } = request.body;
+    if (username) {
+      const existing = await prisma.user.findUnique({
+        where: { username },
+      });
+
+      if (existing && existing.id !== user.user.id) {
+        response.status(409).json({ error: 'Username already taken' });
+        return;
+      }
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: user.user.id },
+      data: {
+        ...(name !== undefined && { name }),
+        ...(description !== undefined && { description }),
+        ...(username !== undefined && { username }),
+      },
+    });
+
+    response.json({ data: updatedUser });
+  },
+);

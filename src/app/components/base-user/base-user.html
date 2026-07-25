@@ -1,0 +1,58 @@
+<div class="max-w-3xl mx-auto mt-6 md:mt-12 px-4">
+  @if (loading) {
+  <div class="text-center text-(--fd-text-muted)">Загрузка...</div>
+  } @else { @if (error) {
+  <div
+    class="p-4 rounded-(--fd-radius) bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-800"
+  >
+    {{ error }}
+  </div>
+  <div class="mt-4">
+    <fd-button (clicked)="goBack.emit()">← Назад</fd-button>
+  </div>
+  } @else { @if (user) {
+  <div class="mb-8 flex items-start justify-between">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-(--fd-text-primary)">
+        {{ user.name }}
+      </h1>
+      <p class="text-(--fd-text-muted)">@{{ user.username }}</p>
+      @if (user.description) {
+      <article class="prose prose-invert max-w-none overflow-y-auto h-full">
+        <markdown class="markdown-body" [data]="user.description" mermaid />
+      </article>
+      }
+    </div>
+    @if (isMe) {
+    <fd-button (clicked)="editProfile.emit()">Изменить профиль</fd-button>
+    }
+  </div>
+
+  <hr class="my-6 border-(--fd-border)" />
+
+  <h2 class="text-xl font-semibold text-(--fd-text-primary)">Посты</h2>
+
+  @if (posts.length === 0) {
+  <p class="text-(--fd-text-muted) mt-4">У пользователя пока нет постов.</p>
+  } @else {
+  <div class="mt-4 space-y-4">
+    @for (post of posts; track post.id) {
+    <div
+      class="p-4 border border-(--fd-border) rounded-(--fd-radius) bg-(--fd-bg-card) hover:shadow-(--fd-shadow) transition"
+    >
+      <a
+        [routerLink]="['/posts', post.id]"
+        class="block hover:underline text-(--fd-primary)"
+      >
+        <div class="text-(--fd-text-primary) line-clamp-3 text-sm md:text-base">
+          {{ post.content.length > 200 ? (post.content | slice:0:200) + '…' :
+          post.content }}
+        </div>
+      </a>
+    </div>
+    }
+  </div>
+  } } @else {
+  <div class="text-center text-(--fd-text-muted)">Пользователь не найден</div>
+  } } }
+</div>

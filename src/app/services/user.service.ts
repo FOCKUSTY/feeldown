@@ -24,9 +24,25 @@ export class UserService extends HttpBaseService {
       .pipe(this.from.bind(this));
   }
 
-  public getUserPosts(slug: string): Observable<Post[]> {
+  public getUserPosts(slug: string, token?: string | null): Observable<Post[]> {
     return this.http
-      .get<Data<Post[]>>(`/api/users/${slug}/posts`)
+      .get<Data<Post[]>>(`/api/users/${slug}/posts`, {
+        headers: this.getHeaders(token),
+      })
+      .pipe(this.from.bind(this));
+  }
+
+  public updateProfile(
+    data: Partial<{
+      name: string | null;
+      description: string | null;
+      username: string | null;
+    }>,
+  ): Observable<User> {
+    return this.http
+      .put<Data<User>>('/api/users/@me', data, {
+        headers: this.getHeaders(),
+      })
       .pipe(this.from.bind(this));
   }
 }

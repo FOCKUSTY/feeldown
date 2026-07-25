@@ -20,10 +20,11 @@
     <p class="text-(--fd-text-secondary) mt-2">
       Добро пожаловать в Feeldown — твой личный блог-движок.
     </p>
-    <div class="mt-6">
+    <div class="flex gap-2 justify-center mt-6">
       <fd-button (clicked)="navigateTo('/posts/new')">
         ✍️ Написать пост
       </fd-button>
+      <fd-button (clicked)="navigateTo('/profile')"> 👤 Мой профиль </fd-button>
     </div>
   </div>
   } @else {
