@@ -7,7 +7,7 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 
-import express from 'express';
+import express, { Express } from 'express';
 import session from 'express-session';
 import { join } from 'node:path';
 import passport from 'passport';
@@ -62,4 +62,4 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
   });
 }
 
-export const reqHandler = createNodeRequestHandler(app);
+export const reqHandler: Express = createNodeRequestHandler(app);
