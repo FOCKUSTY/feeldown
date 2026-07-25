@@ -5,11 +5,13 @@ import { tokenMiddleware } from '../middlewares';
 import { router as auth } from './auth';
 import { router as users } from './users';
 import { router as posts } from './posts';
+import { router as notifications } from './notifications';
 
-export const router = Router();
+export const router: Router = Router();
 
 router.use(tokenMiddleware);
 
 router.use('/auth', auth);
 router.use('/users', users);
 router.use('/posts', posts);
+router.use('/notifications', notifications);
