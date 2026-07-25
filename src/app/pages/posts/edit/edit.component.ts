@@ -71,7 +71,7 @@ export class EditPost implements OnInit {
 
     this._service.update(this._slug, post).subscribe({
       next: (updated) => {
-        this._router.navigate(['/posts', updated.postname]);
+        this._router.navigate(['/posts', `$${updated.postname}`]);
       },
       error: (err) => {
         this._error.set(err.message || 'Ошибка при обновлении поста.');

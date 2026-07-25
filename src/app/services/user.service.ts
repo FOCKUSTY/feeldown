@@ -49,6 +49,7 @@ export class UserService extends HttpBaseService {
     const description = data.description
       ? { description: compressToBase64(data.description) }
       : {};
+
     const updated = this.http.put<Data<User>>(
       '/api/users/@me',
       {

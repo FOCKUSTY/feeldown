@@ -10,8 +10,8 @@ import { sign } from 'jsonwebtoken';
 import { GROUPED_AUTH_PARAMETERS } from '../constants';
 
 //@ts-ignore
-import { Strategy as Github } from "passport-github";
-import { Strategy as Google } from "passport-google-oauth20";
+import { Strategy as Github } from 'passport-github';
+import { Strategy as Google } from 'passport-google-oauth20';
 
 passport.serializeUser((user: any, done) => {
   return done(null, user.user.id);
@@ -100,13 +100,10 @@ export const verify = async (
 
 const STRATEGIES: Record<Provider, any> = {
   github: Github,
-  google: Google
+  google: Google,
 };
 
-export const useStrategy = (
-  provider: Provider,
-  scope: string[],
-) => {
+export const useStrategy = (provider: Provider, scope: string[]) => {
   const parameters = GROUPED_AUTH_PARAMETERS[provider];
 
   const Strategy = STRATEGIES[provider];

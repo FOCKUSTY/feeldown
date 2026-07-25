@@ -79,7 +79,7 @@ router.get('/:slug/posts', async (request, response) => {
 router.put(
   '/@me',
   body('name').optional().isString().trim().isLength({ min: 1, max: 100 }),
-  body('description').optional().isString().trim().isLength({ max: 500 }),
+  body('description').optional().isString().trim().isLength({ max: 4096 }),
   body('username')
     .optional()
     .isString()

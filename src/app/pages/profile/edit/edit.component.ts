@@ -21,7 +21,7 @@ export class ProfileEdit implements OnInit {
       '',
       [Validators.required, Validators.minLength(1), Validators.maxLength(100)],
     ],
-    description: ['', [Validators.maxLength(500)]],
+    description: ['', [Validators.maxLength(2048)]],
     username: [
       '',
       [
