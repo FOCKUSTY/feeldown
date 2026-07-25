@@ -3,7 +3,7 @@ import { ExpressUser } from '@/server/types';
 import { HttpStatusCode } from '@angular/common/http';
 import { response, Router } from 'express';
 
-export const router = Router();
+export const router: Router = Router();
 
 router.get('/@me', (request, response) => {
   const user = request.user as ExpressUser | undefined;

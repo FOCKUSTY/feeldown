@@ -4,7 +4,7 @@ import { Router } from 'express';
 
 import passport from 'passport';
 
-export const router = Router();
+export const router: Router = Router();
 
 router.get('/google', passport.authenticate('google'));
 

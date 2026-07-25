@@ -4,10 +4,12 @@ import { HttpStatusCode } from '@angular/common/http';
 import { Router } from 'express';
 import { body, param, validationResult } from 'express-validator';
 
-export const router = Router();
+export const router: Router = Router();
 
 router.post(
   '/',
+  body("title").isString().trim(),
+  body("postname").isString().trim(),
   body('content').isString().trim(),
   async (request, response) => {
     const user = request.user as ExpressUser | undefined;
@@ -19,6 +21,8 @@ router.post(
     const post = await prisma.post.create({
       data: {
         userId: user.user.id,
+        title: request.body.title,
+        postname: request.body.postname,
         content: request.body.content,
       },
     });
