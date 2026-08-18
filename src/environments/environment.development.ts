@@ -1,4 +1,4 @@
 export const environment = {
-  API_ORIGIN: 'http://localhost:4200',
-  BASE_PATH_NAME: '/api/',
+  API_ORIGIN: 'http://localhost:8080',
+  BASE_PATH_NAME: '/api/v1/',
 };

@@ -1,35 +1,53 @@
 generator client {
-  provider = "prisma-client"
-  output   = "./generated"
+  provider               = "prisma-client"
+  output                 = "./generated"
+  moduleFormat           = "cjs"
+  generatedFileExtension = "ts"
+  importFileExtension    = ""
+  compilerBuild          = "fast"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model Auth {
-  id    String  @id @default(uuid())
-  email String? @unique
-
-  userId     String @unique
-  providerId String
-  provider   String
-
-  accessToken  String
-  refreshToken String?
-  token        String
+enum AuthTypes {
+  google
+  github
+  telegram
 }
 
-enum FriendshipStatus {
-  PENDING
-  ACCEPTED
-  BLOCKED
+model Service {
+  id           String    @id
+  name         AuthTypes
+  accessToken  String
+  refreshToken String?
+
+  authId String
+  auth   Auth   @relation("auth", fields: [authId], references: [id])
+}
+
+model Auth {
+  id     String  @id @default(uuid(7))
+  userId String  @unique
+  email  String? @unique
+
+  password String?
+  token    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  services Service[] @relation("auth")
+
+  @@index([userId])
 }
 
 model User {
-  id       String @id @default(uuid())
+  id String @id @default(uuid(7))
+
   username String @unique
-  name     String
+  nickname String
 
   description String
 
@@ -39,34 +57,88 @@ model User {
   postReactions    PostReaction[]
   commentReactions CommentReaction[]
 
-  initiatedFriendships Friendship[] @relation("initiator")
-  receivedFriendships  Friendship[] @relation("receiver")
+  followers Follow[] @relation("followers")
+  following Follow[] @relation("following")
+
+  sentRequests     FriendRequest[] @relation("sentRequests")
+  receivedRequests FriendRequest[] @relation("receivedRequests")
+
+  blocks    Block[] @relation("blocker")
+  blockedBy Block[] @relation("blocked")
 
   receivedNotifications Notification[] @relation("recipient")
-  sentNotifications    Notification[] @relation("actor")
+  sentNotifications     Notification[] @relation("actor")
 
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime @updatedAt
+
+  @@index([username])
 }
 
-model Friendship {
-  id String @id @default(uuid())
+model Follow {
+  id String @id @default(uuid(7))
 
-  initiatorId String
-  receiverId  String
+  followerId String
+  followeeId String
 
-  status    FriendshipStatus @default(PENDING)
-  createdAt DateTime         @default(now())
-  updatedAt DateTime?        @updatedAt
+  follower User @relation("followers", fields: [followerId], references: [id])
+  followee User @relation("following", fields: [followeeId], references: [id])
 
-  initiator User @relation("initiator", fields: [initiatorId], references: [id])
-  receiver  User @relation("receiver", fields: [receiverId], references: [id])
+  createdAt DateTime @default(now())
 
-  @@unique([initiatorId, receiverId])
+  @@unique([followerId, followeeId])
+  @@index([followerId])
+  @@index([followeeId])
+}
+
+enum FriendRequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model FriendRequest {
+  id String @id @default(uuid(7))
+
+  senderId   String
+  receiverId String
+
+  status FriendRequestStatus @default(PENDING)
+
+  sender   User @relation("sentRequests", fields: [senderId], references: [id])
+  receiver User @relation("receivedRequests", fields: [receiverId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([senderId, receiverId])
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([status])
+
+  @@index([receiverId, status])
+  @@index([senderId, status])
+}
+
+model Block {
+  id String @id @default(uuid(7))
+
+  blockerId String
+  blockedId String
+
+  blocker User @relation("blocker", fields: [blockerId], references: [id])
+  blocked User @relation("blocked", fields: [blockedId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([blockerId, blockedId])
+  @@index([blockerId])
+  @@index([blockedId])
 }
 
 model Post {
-  id       String @id @default(uuid())
+  id       String @id @default(uuid(7))
   postname String @unique
   userId   String
 
@@ -76,14 +148,18 @@ model Post {
   comments Comment[]
   user     User      @relation(fields: [userId], references: [id])
 
-  reactions      PostReaction[]
+  reactions PostReaction[]
 
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([createdAt])
+  @@index([updatedAt])
 }
 
 model Comment {
-  id      String @id @default(uuid())
+  id      String @id @default(uuid(7))
   content String @db.Text
   userId  String
   postId  String
@@ -95,17 +171,17 @@ model Comment {
   parent   Comment?  @relation("CommentTree", fields: [parentId], references: [id])
   children Comment[] @relation("CommentTree")
 
-  reactions      CommentReaction[]
+  reactions CommentReaction[]
 
   createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  updatedAt DateTime @updatedAt
 
   @@index([postId])
   @@index([parentId])
 }
 
 model PostReaction {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7))
   userId    String
   postId    String
   type      String
@@ -119,7 +195,7 @@ model PostReaction {
 }
 
 model CommentReaction {
-  id        String   @id @default(uuid())
+  id        String   @id @default(uuid(7))
   userId    String
   commentId String
   type      String
@@ -133,28 +209,47 @@ model CommentReaction {
 }
 
 enum NotificationType {
+  CREATE_POST
+
   REACT_POST
   REACT_COMMENT
+
   COMMENT_POST
   REPLY_COMMENT
+
   FRIEND_REQUEST
   FRIEND_ACCEPT
+
+  MENTION
+  FOLLOW
+}
+
+enum ReferenceType {
+  POST
+  COMMENT
+  FRIENDS
+  FOLLOW
+  USER
 }
 
 model Notification {
-  id           String          @id @default(uuid())
-  recipientId  String
-  actorId      String?
-  type         NotificationType
-  referenceType String
+  id            String           @id @default(uuid(7))
+  recipientId   String
+  actorId       String?
+  type          NotificationType
+  referenceType ReferenceType
   referenceId   String
-  readed       Boolean         @default(false)
-  createdAt    DateTime        @default(now())
+  readed        Boolean          @default(false)
+  createdAt     DateTime         @default(now())
 
-  recipient    User            @relation("recipient", fields: [recipientId], references: [id])
-  actor        User?           @relation("actor", fields: [actorId], references: [id])
+  recipient User  @relation("recipient", fields: [recipientId], references: [id])
+  actor     User? @relation("actor", fields: [actorId], references: [id])
 
   @@index([recipientId])
   @@index([recipientId, readed])
   @@index([createdAt])
+
+  @@index([recipientId, readed, createdAt])
+  @@index([recipientId, type, createdAt])
+  @@index([referenceId, referenceType])
 }

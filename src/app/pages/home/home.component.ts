@@ -23,8 +23,8 @@ export class Home implements OnInit, OnDestroy {
   protected readonly _user = signal<User | null>(null);
   protected readonly _loaded = signal<boolean>(false);
 
-  protected readonly _login_google_url = `${environment.API_ORIGIN}/api/auth/google`;
-  protected readonly _login_github_url = `${environment.API_ORIGIN}/api/auth/github`;
+  protected readonly _login_google_url = `${environment.API_ORIGIN}/api/v1/auth/oauth2/google`;
+  protected readonly _login_github_url = `${environment.API_ORIGIN}/api/v1/auth/oauth2/github`;
 
   private _subscription = new Subscription();
 

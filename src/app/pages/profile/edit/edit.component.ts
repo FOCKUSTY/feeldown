@@ -45,7 +45,7 @@ export class ProfileEdit implements OnInit {
         }
 
         this.form.patchValue({
-          name: user.name,
+          name: user.nickname,
           description: user.description || '',
           username: user.username,
         });
@@ -70,15 +70,17 @@ export class ProfileEdit implements OnInit {
 
     const { name, description, username } = this.form.value;
 
-    this.userService.updateProfile({ name, description, username }).subscribe({
-      next: () => {
-        this.router.navigate(['/profile']);
-      },
-      error: (err) => {
-        this._error.set(err.error?.error || 'Ошибка при сохранении');
-        this._submitting.set(false);
-      },
-    });
+    this.userService
+      .updateProfile({ nickname: name, description, username })
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/profile']);
+        },
+        error: (err) => {
+          this._error.set(err.error?.error || 'Ошибка при сохранении');
+          this._submitting.set(false);
+        },
+      });
   }
 
   protected cancel() {

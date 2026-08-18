@@ -34,7 +34,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           return forkJoin({
             user: this._userService.getMe().pipe(catchError(() => of(null))),
             posts: this._userService
-              .getUserPosts('@me')
+              .getUserPosts('.me')
               .pipe(catchError(() => of([]))),
           });
         }),

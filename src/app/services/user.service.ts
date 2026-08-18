@@ -1,9 +1,10 @@
 import type { User, Data, Post } from '@/server/types';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { HttpBaseService } from './http-base.service';
 import { compressToBase64, decompressFromBase64 } from 'lz-string';
+import { environment } from '@/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends HttpBaseService {
@@ -12,22 +13,46 @@ export class UserService extends HttpBaseService {
   }
 
   public getMe(token?: string | null): Observable<User | null> {
-    const data = this.http.get<Data<User | null>>('/api/users/@me', {
-      headers: this.getHeaders(token),
-    });
+    return this.http
+      .get<User | null>(`${environment.API_ORIGIN}/api/v1/users/.me`, {
+        headers: this.getHeaders(token),
+      })
+      .pipe(
+        switchMap((user) =>
+          of(
+            this.decompressBase<User | null, 'description'>(
+              user,
+              'description',
+            ),
+          ),
+        ),
+        catchError((error) => {
+          if ('status' in error) {
+            console.error(error);
+            if (error.status === 401) {
+              return of(null);
+            }
+          }
 
-    return this.decompress(this.from(data), 'description');
+          throw error;
+        }),
+      );
   }
 
   public getUser(slug: string): Observable<User | null> {
-    const data = this.http.get<Data<User>>(`/api/users/${slug}`);
-    return this.decompress(this.from(data), 'description');
+    const user = this.http.get<User>(
+      `${environment.API_ORIGIN}/api/v1/users/${slug}`,
+    );
+    return this.decompress(user, 'description');
   }
 
   public getUserPosts(slug: string, token?: string | null): Observable<Post[]> {
-    const data = this.http.get<Data<Post[]>>(`/api/users/${slug}/posts`, {
-      headers: this.getHeaders(token),
-    });
+    const data = this.http.get<Data<Post[]>>(
+      `${environment.API_ORIGIN}/api/v1/users/${slug}/posts`,
+      {
+        headers: this.getHeaders(token),
+      },
+    );
 
     return this.from(data).pipe(
       map((posts) =>
@@ -41,7 +66,7 @@ export class UserService extends HttpBaseService {
 
   public updateProfile(
     data: Partial<{
-      name: string | null;
+      nickname: string | null;
       description: string | null;
       username: string | null;
     }>,
@@ -51,7 +76,7 @@ export class UserService extends HttpBaseService {
       : {};
 
     const updated = this.http.put<Data<User>>(
-      '/api/users/@me',
+      `${environment.API_ORIGIN}/api/v1/users/.me`,
       {
         ...data,
         ...description,

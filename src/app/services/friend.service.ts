@@ -2,15 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import type { Data, Friendship, User } from '@/server/types';
+import type {
+  Data,
+  FriendRequest,
+  User,
+  FriendRequestStatus,
+} from '@/server/types';
 import { HttpBaseService } from './http-base.service';
-
-export type FriendshipStatus =
-  | 'none'
-  | 'pending_sent'
-  | 'pending_received'
-  | 'friends'
-  | 'self';
+import { environment } from '@/environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class FriendService extends HttpBaseService {
@@ -18,10 +17,24 @@ export class FriendService extends HttpBaseService {
     super();
   }
 
-  public sendRequest(userId: string): Observable<Friendship> {
+  public sendRequest(userId: string): Observable<FriendRequest> {
     return this.from(
-      this.http.post<Data<Friendship>>(
-        `/api/friends/request/${userId}`,
+      this.http.post<Data<FriendRequest>>(
+        `${environment.API_ORIGIN}/api/v1/friendships`,
+        {
+          receiverId: userId,
+        },
+        {
+          headers: this.getHeaders(),
+        },
+      ),
+    );
+  }
+
+  public acceptRequest(friendshipId: string): Observable<FriendRequest> {
+    return this.from(
+      this.http.post<Data<FriendRequest>>(
+        `${environment.API_ORIGIN}/api/v1/friendships/${friendshipId}?status=ACCEPTED`,
         {},
         {
           headers: this.getHeaders(),
@@ -30,10 +43,10 @@ export class FriendService extends HttpBaseService {
     );
   }
 
-  public acceptRequest(friendshipId: string): Observable<Friendship> {
+  public rejectRequest(friendshipId: string): Observable<FriendRequest> {
     return this.from(
-      this.http.post<Data<Friendship>>(
-        `/api/friends/accept/${friendshipId}`,
+      this.http.put<FriendRequest>(
+        `${environment.API_ORIGIN}/api/v1/friendships/${friendshipId}?status=REJECTED`,
         {},
         {
           headers: this.getHeaders(),
@@ -42,22 +55,10 @@ export class FriendService extends HttpBaseService {
     );
   }
 
-  public rejectRequest(friendshipId: string): Observable<{ success: boolean }> {
+  public removeFriend(friendshipId: string): Observable<FriendRequest> {
     return this.from(
-      this.http.post<Data<{ success: boolean }>>(
-        `/api/friends/reject/${friendshipId}`,
-        {},
-        {
-          headers: this.getHeaders(),
-        },
-      ),
-    );
-  }
-
-  public removeFriend(friendshipId: string): Observable<{ success: boolean }> {
-    return this.from(
-      this.http.delete<Data<{ success: boolean }>>(
-        `/api/friends/${friendshipId}`,
+      this.http.delete<FriendRequest>(
+        `${environment.API_ORIGIN}/api/v1/friendships/${friendshipId}`,
         {
           headers: this.getHeaders(),
         },
@@ -67,47 +68,45 @@ export class FriendService extends HttpBaseService {
 
   public getFriends(): Observable<User[]> {
     return this.from(
-      this.http.get<Data<User[]>>('/api/friends', {
-        headers: this.getHeaders(),
-      }),
-    );
-  }
-
-  public getStatus(userId: string): Observable<FriendshipStatus> {
-    return this.from(
-      this.http.get<Data<{ status: FriendshipStatus }>>(
-        `/api/friends/status/${userId}`,
+      this.http.get<Data<User[]>>(
+        `${environment.API_ORIGIN}/api/v1/friendships/.me/friends`,
         {
           headers: this.getHeaders(),
         },
       ),
-    ).pipe(map((res) => res.status));
-  }
-
-  public getIncomingRequests(): Observable<Friendship[]> {
-    return this.from(
-      this.http.get<Data<Friendship[]>>('/api/friends/incoming', {
-        headers: this.getHeaders(),
-      }),
     );
   }
 
-  public getOutgoingRequests(): Observable<Friendship[]> {
+  public getRequest(userId: string): Observable<FriendRequest> {
     return this.from(
-      this.http.get<Data<Friendship[]>>('/api/friends/outgoing', {
-        headers: this.getHeaders(),
-      }),
+      this.http.get<FriendRequest>(
+        `${environment.API_ORIGIN}/api/v1/friendships/by-user/${userId}`,
+        {
+          headers: this.getHeaders(),
+        },
+      ),
+    );
+  }
+
+  public getIncomingRequests(): Observable<FriendRequest[]> {
+    return this.from(
+      this.http.get<Data<FriendRequest[]>>(
+        `${environment.API_ORIGIN}/api/v1/friendships?receiverId=me?status=PENDING`,
+        {
+          headers: this.getHeaders(),
+        },
+      ),
     );
   }
 
   public getFriendshipId(userId: string): Observable<string | null> {
     return this.from(
-      this.http.get<Data<{ friendshipId: string | null }>>(
-        `/api/friends/friendship-id/${userId}`,
+      this.http.get<FriendRequest>(
+        `${environment.API_ORIGIN}/api/v1/friendships/by-user/${userId}`,
         {
           headers: this.getHeaders(),
         },
       ),
-    ).pipe(map((res) => res.friendshipId));
+    ).pipe(map((request) => request.id));
   }
 }

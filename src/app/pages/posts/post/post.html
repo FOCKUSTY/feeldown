@@ -15,10 +15,10 @@
     <section class="text-sm md:text-base text-(--fd-text-primary)">
       Author:
       <a
-        href="/users/@{{ post.user.username }}"
+        href="/users/.{{ post.user.username }}"
         class="text-(--fd-primary) hover:underline"
       >
-        {{ post.user.name }}
+        {{ post.user.nickname }}
       </a>
       @if (post.isAuthor) {
       <fd-button (clicked)="goToEdit()" class="py-1! px-3! text-sm"
@@ -31,7 +31,7 @@
       <h1 class="text-3xl font-bold text-(--fd-text-primary) mb-4">
         {{ post.title }}
       </h1>
-      <p class="text-(--fd-text-muted)">${{ post.postname }}</p>
+      <p class="text-(--fd-text-muted)">~{{ post.postname }}</p>
     </div>
 
     <article class="prose prose-invert max-w-none overflow-y-auto h-full">

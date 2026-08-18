@@ -11,10 +11,15 @@ export abstract class HttpBaseService {
 
   public constructor() {}
 
+  /**
+   * @backward_compatibility
+   * @legacy
+   * @deprecated
+   */
   protected from<T>(observable: Observable<Data<T>>) {
     return observable.pipe(
       map((value) => {
-        return value.data;
+        return value;
       }),
     );
   }
@@ -23,18 +28,18 @@ export abstract class HttpBaseService {
     observable: Observable<T>,
     key: K,
   ): Observable<T> {
-    return observable.pipe(
-      map((value) => {
-        if (!value) {
-          return null as T;
-        }
+    return observable.pipe(map((value) => this.decompressBase(value, key)));
+  }
 
-        return {
-          ...value,
-          [key]: decompressFromBase64(value[key] as string),
-        };
-      }),
-    );
+  protected decompressBase<T, K extends keyof NonNullable<T>>(base: T, key: K) {
+    if (!base) {
+      return null as T;
+    }
+
+    return {
+      ...base,
+      [key]: decompressFromBase64(base[key] as string),
+    };
   }
 
   protected getHeaders(token?: string | null) {
