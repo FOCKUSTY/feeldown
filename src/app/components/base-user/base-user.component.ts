@@ -1,4 +1,5 @@
-import type { User, Post, FriendRequest } from '@/server/types';
+import type { FriendshipStatus } from '@/app/services';
+import type { User, Post } from '@/server/types';
 
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -25,7 +26,7 @@ export class BaseUserComponent {
   public error: string | null = null;
 
   @Input()
-  public friendship: FriendRequest | null = null;
+  public friendshipStatus: FriendshipStatus = 'none';
   @Input()
   public friendshipId: string | null = null;
   @Input()
@@ -81,42 +82,20 @@ export class BaseUserComponent {
   }
 
   protected get isFriend(): boolean {
-    return this.friendship?.status === 'ACCEPTED';
+    return this.friendshipStatus === 'friends';
   }
 
   protected get isPendingSent(): boolean {
-    if (!this.friendship) {
-      return false;
-    }
-
-    if (!this.user) {
-      return false;
-    }
-
-    return (
-      this.friendship.receiverId === this.user.id &&
-      this.friendship.status === 'PENDING'
-    );
+    return this.friendshipStatus === 'pending_sent';
   }
 
   protected get isPendingReceived(): boolean {
-    if (!this.friendship) {
-      return false;
-    }
-
-    if (!this.user) {
-      return false;
-    }
-
-    return (
-      this.friendship.senderId === this.user.id &&
-      this.friendship.status === 'PENDING'
-    );
+    return this.friendshipStatus === 'pending_received';
   }
 
   protected get canSendRequest(): boolean {
     return (
-      this.friendship === null &&
+      this.friendshipStatus === 'none' &&
       !this.isMe &&
       this.currentUserId !== this.user?.id
     );

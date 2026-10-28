@@ -4,7 +4,8 @@ import { Subscription, forkJoin, of, switchMap, catchError } from 'rxjs';
 
 import { BaseUserComponent } from '@/app/components';
 import { UserService, FriendService } from '@/app/services';
-import type { User, Post, FriendRequest } from '@/server/types';
+import type { User, Post } from '@/server/types';
+import type { FriendshipStatus } from '@/app/services/friend.service';
 
 @Component({
   selector: 'app-user-user',
@@ -23,7 +24,7 @@ export class Home implements OnInit, OnDestroy {
   protected _is_me = signal(false);
   protected _loading = signal(true);
   protected _error = signal<string | null>(null);
-  protected _friendship_request = signal<FriendRequest | null>(null);
+  protected _friendship_status = signal<FriendshipStatus>('none');
   protected _friendship_id = signal<string | null>(null);
   protected _current_user_id = signal<string | null>(null);
 
@@ -72,17 +73,17 @@ export class Home implements OnInit, OnDestroy {
 
             if (me && me.id !== user.id) {
               return this._friendService
-                .getRequest(user.id)
-                .pipe(catchError(() => of(null)));
+                .getStatus(user.id)
+                .pipe(catchError(() => of('none' as FriendshipStatus)));
             } else {
-              return of(null);
+              return of('self' as FriendshipStatus);
             }
           }),
         )
         .subscribe({
           next: (status) => {
             if (status) {
-              this._friendship_request.set(status);
+              this._friendship_status.set(status);
             }
             this._loading.set(false);
           },
@@ -112,7 +113,7 @@ export class Home implements OnInit, OnDestroy {
 
     this._friendService.sendRequest(user.id).subscribe({
       next: (friendship) => {
-        this._friendship_request.set(friendship);
+        this._friendship_status.set('pending_sent');
         this._friendship_id.set(friendship.id);
       },
       error: (err) => {
@@ -128,7 +129,7 @@ export class Home implements OnInit, OnDestroy {
     this._subscription.add(
       this._friendService.getIncomingRequests().subscribe({
         next: (requests) => {
-          const request = requests.find((f) => f.senderId === user.id);
+          const request = requests.find((f) => f.initiatorId === user.id);
           if (!request) {
             this._error.set('Запрос не найден');
             return;
@@ -136,8 +137,8 @@ export class Home implements OnInit, OnDestroy {
 
           this._subscription.add(
             this._friendService.acceptRequest(request.id).subscribe({
-              next: (friendship) => {
-                this._friendship_request.set(friendship);
+              next: () => {
+                this._friendship_status.set('friends');
                 this._friendship_id.set(request.id);
               },
               error: (err) => {
@@ -162,7 +163,7 @@ export class Home implements OnInit, OnDestroy {
     this._subscription.add(
       this._friendService.getIncomingRequests().subscribe({
         next: (requests) => {
-          const request = requests.find((f) => f.senderId === user.id);
+          const request = requests.find((f) => f.initiatorId === user.id);
           if (!request) {
             this._error.set('Запрос не найден');
             return;
@@ -170,8 +171,8 @@ export class Home implements OnInit, OnDestroy {
 
           this._subscription.add(
             this._friendService.rejectRequest(request.id).subscribe({
-              next: (friendship) => {
-                this._friendship_request.set(friendship);
+              next: () => {
+                this._friendship_status.set('none');
                 this._friendship_id.set(null);
               },
               error: (err) => {
@@ -204,7 +205,7 @@ export class Home implements OnInit, OnDestroy {
           this._subscription.add(
             this._friendService.removeFriend(friendshipId).subscribe({
               next: () => {
-                this._friendship_request.set(null);
+                this._friendship_status.set('none');
                 this._friendship_id.set(null);
               },
               error: (err) => {
